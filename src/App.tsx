@@ -32,10 +32,6 @@ function App() {
     }
   }, [getGrid]);
 
-  // useEffect(() => {
-  //   console.log(getPropMap);
-  // }, [getPropMap]);
-
   return (
     <div className="App">
       <h1>Bouquet 💐</h1>
@@ -46,8 +42,12 @@ function App() {
           viewBox={`-${size * 4.5} -${size * 4.5} ${size * 9} ${size * 9}`}
         >
           <g>
-            {[...getGrid].map((el) => (
-              <HexLeaf hex={el} prop={getPropMap[getGrid.indexOf(el)]} />
+            {[...getGrid].map((el, i) => (
+              <HexLeaf
+                key={i}
+                hex={el}
+                prop={getPropMap[getGrid.indexOf(el)]}
+              />
             ))}
           </g>
         </svg>

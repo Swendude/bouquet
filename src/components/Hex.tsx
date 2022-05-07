@@ -24,7 +24,6 @@ const HexLeaf = (props: HexLeafProps) => {
     <g>
       <path
         d={hexPath(props.hex.corners())}
-        // d={"M 0,0 L 10,10"}
         transform={`translate(${props.hex.toPoint().x},${
           props.hex.toPoint().y
         })`}
