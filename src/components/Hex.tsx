@@ -17,7 +17,7 @@ const hexPath = (corners: Point[]) => {
 };
 
 const HexLeaf = (props: HexLeafProps) => {
-  const [getColor, setColor] = useState(
+  const [getColor] = useState(
     chroma.scale(["#3b8bbc", "#e0915a"]).mode("lch").colors(6)
   );
   return (

@@ -1,6 +1,6 @@
-import React, { useEffect, useState, ReactFragment } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
-import { extendHex, defineGrid, Grid, Hex } from "honeycomb-grid";
+import { extendHex, defineGrid, Grid } from "honeycomb-grid";
 import HexLeaf from "./components/Hex";
 
 function App() {
@@ -14,23 +14,17 @@ function App() {
       orientation: "flat",
     });
     const GridFactory = defineGrid(HexFactory);
-    setGrid(
-      GridFactory.hexagon({
-        radius: 2,
-      })
+    const finalGrid = GridFactory.hexagon({
+      radius: 2,
+    });
+    setGrid(finalGrid);
+    setPropMap(
+      [...finalGrid].reduce(
+        (prev, cur) => ({ ...prev, [finalGrid.indexOf(cur)]: {} }),
+        {} as { number: any }
+      )
     );
   }, []);
-
-  useEffect(() => {
-    if (getGrid) {
-      setPropMap(
-        [...getGrid].reduce(
-          (prev, cur) => ({ ...prev, [getGrid.indexOf(cur)]: {} }),
-          {} as { number: any }
-        )
-      );
-    }
-  }, [getGrid]);
 
   return (
     <div className="App">
