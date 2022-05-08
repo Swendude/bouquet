@@ -1,8 +1,6 @@
 import { Hex, Point } from "honeycomb-grid";
 import chroma from "chroma-js";
-import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { hex } from "chroma-js";
 import { select } from "../store/flowerSlice";
 interface HexLeafProps {
   hex: Hex<{}>;
