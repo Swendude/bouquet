@@ -52,7 +52,7 @@ const HexLeaf = (props: HexLeafProps) => {
             key={i}
             textAnchor="middle"
             className="leaf-lable"
-            alignmentBaseline="middle"
+            alignmentBaseline="auto"
             fill={chroma(myColor).luminance() >= 0.5 ? "#222" : "#fff"}
             transform={`translate( 0 ${16 * i})`}
           >

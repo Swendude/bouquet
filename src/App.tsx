@@ -5,6 +5,7 @@ import HexLeaf from "./components/HexLeaf";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { setup } from "./store/flowerSlice";
 import SelectedHex from "./components/SelectedHex";
+import HexEditor from "./components/HexEditor";
 function App() {
   const size = 54;
 
@@ -43,14 +44,12 @@ function App() {
     );
     dispatch(setup([finalGrid, propMap]));
   }, [dispatch]);
-
-  return (
-    <div className="App">
-      <h1>Bouquet 💐</h1>
-      {hexFlower && propMap ? (
-        <svg
-          width={size * 9}
-          height={size * 9}
+  if (hexFlower && propMap) {
+    return (
+      <div className="App">
+        <h1>Bouquet 💐</h1>
+        <svg className="flower-view"
+          
           viewBox={`-${size * 4.5} -${size * 4.5} ${size * 9} ${size * 9}`}
         >
           <g>
@@ -58,17 +57,23 @@ function App() {
               <HexLeaf key={i} hex={el} />
             ))}
           </g>
-          {selected && (
+          {selected != null && (
             <g>
               <SelectedHex hex={hexFlower[selected]} />
             </g>
           )}
         </svg>
-      ) : (
+        && <HexEditor selected={selected}/>}
+      </div>
+    );
+  } else {
+    return (
+      <div className="App">
+        <h1>Bouquet 💐</h1>
         <p>Generating...</p>
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
 }
 
 export default App;
