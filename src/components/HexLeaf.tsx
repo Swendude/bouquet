@@ -49,6 +49,7 @@ const HexLeaf = (props: HexLeafProps) => {
       {myProps ? (
         myProps.label.split(" ").map((part, i) => (
           <text
+            key={i}
             textAnchor="middle"
             className="leaf-lable"
             alignmentBaseline="middle"
