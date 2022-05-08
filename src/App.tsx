@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./App.css";
 import { extendHex, defineGrid, Grid } from "honeycomb-grid";
 import HexLeaf from "./components/HexLeaf";
 import { useAppDispatch, useAppSelector } from "./store/hooks";

@@ -43,8 +43,12 @@ export const flowerSlice = createSlice({
       if (state.data)
         state.data.propMap[state.data.selected].label = action.payload;
     },
+    setColor: (state, action: PayloadAction<number>) => {
+      if (state.data)
+        state.data.propMap[state.data.selected].colorChoice = action.payload;
+    },
   },
 });
 
-export const { setup, select, setLabel } = flowerSlice.actions;
+export const { setup, select, setLabel, setColor } = flowerSlice.actions;
 export default flowerSlice.reducer;

@@ -1,11 +1,19 @@
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { setLabel } from "../store/flowerSlice";
+import { setColor, setLabel } from "../store/flowerSlice";
+import chroma from "chroma-js";
+
 const HexEditor = ({ selected }: { selected?: number }) => {
   const dispatch = useAppDispatch();
 
   const myProps = useAppSelector((state) =>
     state.flower.data && selected !== undefined
       ? state.flower.data.propMap[selected]
+      : undefined
+  );
+
+  const colorScale: [string] = useAppSelector((state) =>
+    state.flower.data
+      ? chroma.scale(state.flower.data.colorScale).mode("lab").colors(6)
       : undefined
   );
   return (
@@ -17,7 +25,7 @@ const HexEditor = ({ selected }: { selected?: number }) => {
           <p>Editing Hex {selected}</p>
         )}
       </div>
-      {selected !== undefined && (
+      {myProps !== undefined && colorScale !== undefined && (
         <div className="editor-content">
           <div className="editor-content-row">
             <label htmlFor="hexcontent">Content: </label>
@@ -34,7 +42,19 @@ const HexEditor = ({ selected }: { selected?: number }) => {
             <div>
               <label htmlFor="hexcontent">Color: </label>
             </div>
-            <div></div>
+            <div>
+              {colorScale.map((col, i) => (
+                <button
+                  key={i}
+                  className={
+                    "color-selector" +
+                    (i === myProps.colorChoice ? " active" : "")
+                  }
+                  style={{ backgroundColor: col }}
+                  onClick={() => dispatch(setColor(i))}
+                />
+              ))}
+            </div>
           </div>
         </div>
       )}
