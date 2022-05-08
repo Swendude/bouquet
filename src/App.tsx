@@ -19,7 +19,7 @@ function App() {
   );
 
   const selected = useAppSelector((state) =>
-    state.flower.data ? state.flower.data.selected : null
+    state.flower.data ? state.flower.data.selected : undefined
   );
 
   useEffect(() => {
@@ -48,8 +48,8 @@ function App() {
     return (
       <div className="App">
         <h1>Bouquet 💐</h1>
-        <svg className="flower-view"
-          
+        <svg
+          className="flower-view"
           viewBox={`-${size * 4.5} -${size * 4.5} ${size * 9} ${size * 9}`}
         >
           <g>
@@ -63,7 +63,7 @@ function App() {
             </g>
           )}
         </svg>
-        && <HexEditor selected={selected}/>}
+        <HexEditor selected={selected} />
       </div>
     );
   } else {

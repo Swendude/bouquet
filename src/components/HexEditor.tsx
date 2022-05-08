@@ -1,6 +1,6 @@
-const HexEditor = ({selected} : {selected : number}) => {
+const HexEditor = ({selected} : {selected? : number}) => {
     return <div className="hex-editor">
-        {selected}
+        {selected ? <p>Editing Hex {selected}</p> : <p>Select a hex to edit!</p>}
     </div>
 }
 
