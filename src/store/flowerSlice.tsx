@@ -8,12 +8,14 @@ import { Grid } from "honeycomb-grid";
 
 interface hexProps {
   colorChoice: number;
+  label: string;
 }
 
 interface flowerSliceState {
   hexFlower: Grid;
   propMap: Record<number, hexProps>;
   colorScale: [string, string];
+  selected: number | null;
 }
 
 interface AppState {
@@ -31,10 +33,17 @@ export const flowerSlice = createSlice({
         hexFlower: action.payload[0],
         propMap: action.payload[1],
         colorScale: [random(), random()],
+        selected: null,
       };
+    },
+    select: (state, action: PayloadAction<number>) => {
+      if (state.data) state.data.selected = action.payload;
+    },
+    deselect: (state) => {
+      if (state.data) state.data.selected = null;
     },
   },
 });
 
-export const { setup } = flowerSlice.actions;
+export const { setup, select, deselect } = flowerSlice.actions;
 export default flowerSlice.reducer;

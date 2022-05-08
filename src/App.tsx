@@ -4,7 +4,7 @@ import { extendHex, defineGrid, Grid } from "honeycomb-grid";
 import HexLeaf from "./components/HexLeaf";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { setup } from "./store/flowerSlice";
-
+import SelectedHex from "./components/SelectedHex";
 function App() {
   const size = 54;
 
@@ -16,6 +16,11 @@ function App() {
   const propMap = useAppSelector((state) =>
     state.flower.data ? state.flower.data.propMap : undefined
   );
+
+  const selected = useAppSelector((state) =>
+    state.flower.data ? state.flower.data.selected : null
+  );
+
   useEffect(() => {
     const HexFactory = extendHex({
       size: size,
@@ -31,6 +36,7 @@ function App() {
         ...prev,
         [finalGrid.indexOf(cur)]: {
           colorChoice: Math.floor(Math.random() * 6),
+          label: "Fill me",
         },
       }),
       {}
@@ -52,6 +58,11 @@ function App() {
               <HexLeaf key={i} hex={el} />
             ))}
           </g>
+          {selected && (
+            <g>
+              <SelectedHex hex={hexFlower[selected]} />
+            </g>
+          )}
         </svg>
       ) : (
         <p>Generating...</p>

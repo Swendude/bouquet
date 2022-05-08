@@ -1,16 +1,12 @@
 import { Hex, Point } from "honeycomb-grid";
 import chroma from "chroma-js";
-import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { hex } from "chroma-js";
-import { select } from "../store/flowerSlice";
-interface HexLeafProps {
+import { useAppSelector } from "../store/hooks";
+
+interface SelectedHexProps {
   hex: Hex<{}>;
 }
 
-const HexLeaf = (props: HexLeafProps) => {
-  const dispatch = useAppDispatch();
-
+const SelectedHex = (props: SelectedHexProps) => {
   const hexPath = (corners: Point[]) => {
     const [first, ...others] = corners;
     let pathStr = `M${first.x}, ${first.y} `;
@@ -38,31 +34,15 @@ const HexLeaf = (props: HexLeafProps) => {
   return (
     <g
       transform={`translate(${props.hex.toPoint().x},${props.hex.toPoint().y})`}
-      onClick={() => dispatch(select(myIndex))}
     >
       <path
         d={hexPath(props.hex.corners())}
-        stroke={"#eee"}
-        strokeWidth={3}
-        fill={myProps ? myColor : "none"}
+        stroke={myProps ? chroma(myColor).darken(0.8).desaturate(2) : "none"}
+        strokeWidth={4}
+        fill={"none"}
       />
-      {myProps ? (
-        myProps.label.split(" ").map((part, i) => (
-          <text
-            textAnchor="middle"
-            className="leaf-lable"
-            alignmentBaseline="middle"
-            fill={chroma(myColor).luminance() >= 0.5 ? "#222" : "#fff"}
-            transform={`translate( 0 ${16 * i})`}
-          >
-            {part}
-          </text>
-        ))
-      ) : (
-        <></>
-      )}
     </g>
   );
 };
 
-export default HexLeaf;
+export default SelectedHex;
