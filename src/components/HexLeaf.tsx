@@ -17,8 +17,10 @@ const HexLeaf = (props: HexLeafProps) => {
     return pathStr + " Z";
   };
 
-  const colorSchema = useAppSelector((state) =>
-    state.flower.data ? state.flower.data.colorSchema : undefined
+  const colorScale = useAppSelector((state) =>
+    state.flower.data
+      ? chroma.scale(state.flower.data.colorScale).mode("lab").colors(6)
+      : undefined
   );
   const myIndex = useAppSelector((state) =>
     state.flower.data ? state.flower.data.hexFlower.indexOf(props.hex) : 0
@@ -28,19 +30,25 @@ const HexLeaf = (props: HexLeafProps) => {
       ? state.flower.data.propMap[myIndex]
       : null
   );
-  const [getColor] = useState(chroma.scale(colorSchema).mode("lch").colors(6));
 
+  const myColor = myProps ? colorScale[myProps.colorChoice] : null;
   return (
-    <g>
+    <g
+      transform={`translate(${props.hex.toPoint().x},${props.hex.toPoint().y})`}
+    >
       <path
         d={hexPath(props.hex.corners())}
-        transform={`translate(${props.hex.toPoint().x},${
-          props.hex.toPoint().y
-        })`}
-        stroke={"#ccc"}
-        strokeWidth={2}
-        fill={myProps ? getColor[myProps.colorChoice] : "none"}
+        stroke={"#eee"}
+        strokeWidth={3}
+        fill={myProps ? myColor : "none"}
       />
+      <text
+        textAnchor="middle"
+        className="leaf-lable"
+        fill={chroma(myColor).luminance() >= 0.5 ? "black" : "white"}
+      >
+        Label
+      </text>
     </g>
   );
 };

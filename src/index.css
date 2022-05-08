@@ -1,5 +1,5 @@
 body {
-  font-family: "Fira Code", monospace;
+  font-family: "Fira Code";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -38,4 +38,9 @@ ul {
 img {
   max-width: 100%;
   height: auto;
+}
+
+.leaf-lable {
+  font-weight: bold;
+  text-transform: uppercase;
 }

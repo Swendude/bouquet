@@ -13,7 +13,7 @@ interface hexProps {
 interface flowerSliceState {
   hexFlower: Grid;
   propMap: Record<number, hexProps>;
-  colorSchema: [string, string];
+  colorScale: [string, string];
 }
 
 interface AppState {
@@ -30,7 +30,7 @@ export const flowerSlice = createSlice({
       state.data = {
         hexFlower: action.payload[0],
         propMap: action.payload[1],
-        colorSchema: [random(), random()],
+        colorScale: [random(), random()],
       };
     },
   },
