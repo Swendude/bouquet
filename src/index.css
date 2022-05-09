@@ -1,18 +1,18 @@
 body {
-  font-family: "Fira Code";
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    font-family: "Fira Code";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 html {
-  box-sizing: border-box;
-  font-size: 14px;
+    box-sizing: border-box;
+    font-size: 14px;
 }
 
 *,
 *:before,
 *:after {
-  box-sizing: inherit;
+    box-sizing: inherit;
 }
 
 body,
@@ -25,83 +25,82 @@ h6,
 p,
 ol,
 ul {
-  margin: 0;
-  padding: 0;
-  font-weight: normal;
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
 }
 
 ol,
 ul {
-  list-style: none;
+    list-style: none;
 }
 
 img {
-  max-width: 100%;
-  height: auto;
+    max-width: 100%;
+    height: auto;
 }
 
 .App {
-  margin-top: 11px;
-  margin-left: 22px;
-  margin-right: 22px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 22px;
+    margin-top: 11px;
+    margin-left: 22px;
+    margin-right: 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
 }
 
 .leaf-lable {
-  font-size: 14px;
-  font-weight: bolder;
-  text-transform: uppercase;
-  text-align: center;
+    text-transform: uppercase;
+    text-align: center;
 }
 
 .hex-editor {
-  border: solid 2px black;
-  margin-left: 5%;
-  margin-right: 5%;
-  width: 80%;
+    border: solid 2px black;
+    margin-left: 5%;
+    margin-right: 5%;
+    width: 80%;
 }
 
 .flower-view {
-  width: 100%;
-  max-width: 650px;
+    width: 100%;
+    max-width: 650px;
 }
 
 .editor-title {
-  padding: 4px;
-  background: black;
-  color: white;
+    padding: 4px;
+    background: black;
+    color: white;
 }
 
 .editor-content {
-  padding: 4px;
+    padding: 4px;
 }
 
 .editor-content-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 1.4rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.4rem;
 }
 
 .color-selector {
-  border: solid 2px;
-  border-color: #00000000;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  margin: 4px;
-  cursor: pointer;
+    border: solid 2px;
+    border-color: #00000000;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    margin: 4px;
+    cursor: pointer;
 }
 
 .color-selector.active {
-  border: solid black 2px;
+    border: solid black 2px;
 }
 
 .color-selector:hover {
-  border: solid #00000088 2px;
+    border: solid #00000088 2px;
 }
+
 .color-selector:active {
-  opacity: 0.5;
+    opacity: 0.5;
 }

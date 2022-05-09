@@ -9,7 +9,9 @@ interface HexLeafProps {
 
 const HexLeaf = (props: HexLeafProps) => {
   const dispatch = useAppDispatch();
-  const [getLongestPart, setLongestPart] = useState(8);
+
+  const [getFontSize, setFontSize] = useState<number>(14);
+
   const hexPath = (corners: Point[]) => {
     const [first, ...others] = corners;
     let pathStr = `M${first.x}, ${first.y} `;
@@ -34,7 +36,7 @@ const HexLeaf = (props: HexLeafProps) => {
   );
 
   useEffect(() => {
-    let longest = 8; // default to 8
+    let longest = 1;
     if (myProps) {
       [...myProps.label.split(" ")].forEach((part) => {
         if (part.length > longest) {
@@ -42,7 +44,8 @@ const HexLeaf = (props: HexLeafProps) => {
         }
       });
     }
-    setLongestPart(longest);
+    console.log(props.hex.width() / longest);
+    setFontSize(Math.min(18, props.hex.width() / longest));
   }, [myProps]);
 
   const myColor = myProps ? colorScale[myProps.colorChoice] : null;
@@ -65,10 +68,10 @@ const HexLeaf = (props: HexLeafProps) => {
             className="leaf-lable"
             alignmentBaseline="auto"
             fill={chroma(myColor).luminance() >= 0.5 ? "#222" : "#fff"}
-            transform={`translate( 0 ${
-              (props.hex.width() / getLongestPart) * i
-            })`}
-            style={{ fontSize: props.hex.width() / getLongestPart }}
+            transform={`translate( 0 ${getFontSize * i})`}
+            style={{
+              fontSize: getFontSize,
+            }}
           >
             {part}
           </text>
