@@ -15,7 +15,7 @@ interface flowerSliceState {
   hexFlower: Grid;
   propMap: Record<number, hexProps>;
   colorScale: [string, string];
-  selected: number;
+  selected: number | undefined;
 }
 
 interface AppState {
@@ -39,16 +39,20 @@ export const flowerSlice = createSlice({
     select: (state, action: PayloadAction<number>) => {
       if (state.data) state.data.selected = action.payload;
     },
+    deselect: (state) => {
+      if (state.data) state.data.selected = undefined;
+    },
     setLabel: (state, action: PayloadAction<string>) => {
-      if (state.data)
+      if (state.data && state.data.selected !== undefined)
         state.data.propMap[state.data.selected].label = action.payload;
     },
     setColor: (state, action: PayloadAction<number>) => {
-      if (state.data)
+      if (state.data && state.data.selected !== undefined)
         state.data.propMap[state.data.selected].colorChoice = action.payload;
     },
   },
 });
 
-export const { setup, select, setLabel, setColor } = flowerSlice.actions;
+export const { setup, select, setLabel, setColor, deselect } =
+  flowerSlice.actions;
 export default flowerSlice.reducer;

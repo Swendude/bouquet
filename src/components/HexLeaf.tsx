@@ -27,12 +27,14 @@ const HexLeaf = (props: HexLeafProps) => {
       : undefined
   );
   const myIndex = useAppSelector((state) =>
-    state.flower.data ? state.flower.data.hexFlower.indexOf(props.hex) : 0
+    state.flower.data
+      ? state.flower.data.hexFlower.indexOf(props.hex)
+      : undefined
   );
   const myProps = useAppSelector((state) =>
-    state.flower.data && myIndex >= 0
+    state.flower.data && myIndex !== undefined
       ? state.flower.data.propMap[myIndex]
-      : null
+      : undefined
   );
 
   useEffect(() => {
@@ -44,7 +46,6 @@ const HexLeaf = (props: HexLeafProps) => {
         }
       });
     }
-    console.log(props.hex.width() / longest);
     setFontSize(Math.min(18, props.hex.width() / longest));
   }, [myProps]);
 
@@ -52,7 +53,7 @@ const HexLeaf = (props: HexLeafProps) => {
   return (
     <g
       transform={`translate(${props.hex.toPoint().x},${props.hex.toPoint().y})`}
-      onClick={() => dispatch(select(myIndex))}
+      onClick={() => myIndex !== undefined && dispatch(select(myIndex))}
     >
       <path
         d={hexPath(props.hex.corners())}
