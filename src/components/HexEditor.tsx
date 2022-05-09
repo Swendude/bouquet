@@ -28,7 +28,7 @@ const HexEditor = ({ selected }: { selected?: number }) => {
       {myProps !== undefined && colorScale !== undefined && (
         <div className="editor-content">
           <div className="editor-content-row">
-            <label htmlFor="hexcontent">Content: </label>
+            <label>Content: </label>
             <input
               type="text"
               value={myProps?.label}
@@ -40,7 +40,7 @@ const HexEditor = ({ selected }: { selected?: number }) => {
           </div>
           <div className="editor-content-row">
             <div>
-              <label htmlFor="hexcontent">Color: </label>
+              <label>Color: </label>
             </div>
             <div>
               {colorScale.map((col, i) => (
