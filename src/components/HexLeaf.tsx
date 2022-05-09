@@ -2,13 +2,14 @@ import { Hex, Point } from "honeycomb-grid";
 import chroma from "chroma-js";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { select } from "../store/flowerSlice";
+import { useEffect, useState } from "react";
 interface HexLeafProps {
   hex: Hex<{}>;
 }
 
 const HexLeaf = (props: HexLeafProps) => {
   const dispatch = useAppDispatch();
-
+  const [getLongestPart, setLongestPart] = useState(8);
   const hexPath = (corners: Point[]) => {
     const [first, ...others] = corners;
     let pathStr = `M${first.x}, ${first.y} `;
@@ -32,6 +33,18 @@ const HexLeaf = (props: HexLeafProps) => {
       : null
   );
 
+  useEffect(() => {
+    let longest = 8; // default to 8
+    if (myProps) {
+      [...myProps.label.split(" ")].forEach((part) => {
+        if (part.length > longest) {
+          longest = part.length;
+        }
+      });
+    }
+    setLongestPart(longest);
+  }, [myProps]);
+
   const myColor = myProps ? colorScale[myProps.colorChoice] : null;
   return (
     <g
@@ -52,7 +65,10 @@ const HexLeaf = (props: HexLeafProps) => {
             className="leaf-lable"
             alignmentBaseline="auto"
             fill={chroma(myColor).luminance() >= 0.5 ? "#222" : "#fff"}
-            transform={`translate( 0 ${16 * i})`}
+            transform={`translate( 0 ${
+              (props.hex.width() / getLongestPart) * i
+            })`}
+            style={{ fontSize: props.hex.width() / getLongestPart }}
           >
             {part}
           </text>
