@@ -1,0 +1,51 @@
+.hex-editor {
+    border: solid 2px black;
+    margin-left: 5%;
+    margin-right: 5%;
+    width: 80%;
+    max-width: 650px;
+}
+
+.editor-title {
+    padding: 0.5rem;
+    background: black;
+    color: white;
+}
+
+.editor-content {
+    padding: 0.5rem;
+}
+
+.editor-content-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+}
+
+.editor-content-row label {
+    font-size: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+.color-selector {
+    border: solid 2px;
+    border-color: #00000000;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    margin: 4px;
+    cursor: pointer;
+}
+
+.color-selector.active {
+    border: solid black 2px;
+}
+
+.color-selector:hover {
+    border: solid #00000088 2px;
+}
+
+.color-selector:active {
+    opacity: 0.5;
+}
