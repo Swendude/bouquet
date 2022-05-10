@@ -1,5 +1,5 @@
-import { Hex, Point } from "honeycomb-grid";
 import chroma from "chroma-js";
+import { Hex, Point } from "honeycomb-grid";
 import { useAppSelector } from "../store/hooks";
 
 interface SelectedHexProps {
@@ -16,21 +16,19 @@ const SelectedHex = (props: SelectedHexProps) => {
     return pathStr + " Z";
   };
 
-  const colorScale = useAppSelector((state) =>
-    state.flower.data
-      ? chroma.scale(state.flower.data.colorScale).mode("lab").colors(6)
-      : undefined
-  );
-  const myIndex = useAppSelector((state) =>
-    state.flower.data ? state.flower.data.hexFlower.indexOf(props.hex) : 0
-  );
-  const myProps = useAppSelector((state) =>
-    state.flower.data && myIndex >= 0
-      ? state.flower.data.propMap[myIndex]
-      : null
+  const colorScale: [string] = useAppSelector((state) =>
+    chroma.scale(state.flower.colorScale).mode("lab").colors(6)
   );
 
-  const myColor = myProps ? colorScale[myProps.colorChoice] : null;
+  const myIndex = useAppSelector((state) =>
+    state.flower.hexFlower.indexOf(props.hex)
+  );
+
+  const myProps = useAppSelector((state) =>
+    myIndex >= 0 ? state.flower.propMap[myIndex] : undefined
+  );
+
+  const myColor = myProps ? colorScale[myProps.colorChoice] : undefined;
   return (
     <g
       transform={`translate(${props.hex.toPoint().x},${props.hex.toPoint().y})`}

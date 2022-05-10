@@ -1,25 +1,15 @@
-import { Grid } from "honeycomb-grid";
+import { deselect } from "../store/flowerSlice";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import HexLeaf from "./HexLeaf";
 import SelectedHex from "./SelectedHex";
 
-import { deselect } from "../store/flowerSlice";
-import { useAppDispatch } from "../store/hooks";
-
-interface HexFlowerProps {
-  hexFlower: Grid;
-  selected?: number;
-  size: number;
-}
-
-const HexFlower = (props: HexFlowerProps) => {
+const HexFlower = () => {
   const dispatch = useAppDispatch();
+  const hexFlower = useAppSelector((state) => state.flower.hexFlower);
+  const selected = useAppSelector((state) => state.flower.selected);
+  const size = useAppSelector((state) => state.flower.size);
 
-  const outerBounds = [
-    -props.size * 4.5,
-    -props.size * 4.5,
-    props.size * 9,
-    props.size * 9,
-  ];
+  const outerBounds = [-size * 4.5, -size * 4.5, size * 9, size * 9];
   return (
     <svg className="flower-view" viewBox={outerBounds.join(" ")}>
       <rect
@@ -31,13 +21,13 @@ const HexFlower = (props: HexFlowerProps) => {
         onClick={() => dispatch(deselect())}
       />
       <g>
-        {[...props.hexFlower].map((el, i) => (
+        {[...hexFlower].map((el, i) => (
           <HexLeaf key={i} hex={el} />
         ))}
       </g>
-      {props.selected != undefined && (
+      {selected != undefined && (
         <g>
-          <SelectedHex hex={props.hexFlower[props.selected]} />
+          <SelectedHex hex={hexFlower[selected]} />
         </g>
       )}
     </svg>

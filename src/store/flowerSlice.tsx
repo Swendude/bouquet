@@ -1,10 +1,6 @@
-import {
-  ActionCreatorWithPayload,
-  createSlice,
-  PayloadAction,
-} from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { random } from "chroma-js";
-import { Grid } from "honeycomb-grid";
+import { defineGrid, extendHex, Grid } from "honeycomb-grid";
 
 interface hexProps {
   colorChoice: number;
@@ -12,47 +8,64 @@ interface hexProps {
 }
 
 interface flowerSliceState {
+  size: number;
   hexFlower: Grid;
   propMap: Record<number, hexProps>;
   colorScale: [string, string];
   selected: number | undefined;
 }
 
-interface AppState {
-  data: flowerSliceState | null;
-}
+const defaultFlower = (size: number): flowerSliceState => {
+  const HexFactory = extendHex({
+    size: size,
+    origin: [2 * size * 0.5, Math.sqrt(3) * size * 0.5],
+    orientation: "flat",
+  });
+  const GridFactory = defineGrid(HexFactory);
+  const hexFlower = GridFactory.hexagon({
+    radius: 2,
+  });
+  const propMap = [...hexFlower].reduce(
+    (prev, cur) => ({
+      ...prev,
+      [hexFlower.indexOf(cur)]: {
+        colorChoice: Math.floor(Math.random() * 6),
+        label: "Fill me",
+      },
+    }),
+    {}
+  );
+  return {
+    size: size,
+    hexFlower,
+    propMap,
+    colorScale: [random(), random()],
+    selected: undefined,
+  };
+};
 
-const initialState: AppState = { data: null };
+const initialState = defaultFlower(54);
 
 export const flowerSlice = createSlice({
   name: "flower",
-  initialState,
+  initialState: initialState as flowerSliceState,
   reducers: {
-    setup: (state, action: PayloadAction<[Grid, Record<number, hexProps>]>) => {
-      state.data = {
-        hexFlower: action.payload[0],
-        propMap: action.payload[1],
-        colorScale: [random(), random()],
-        selected: 0,
-      };
-    },
     select: (state, action: PayloadAction<number>) => {
-      if (state.data) state.data.selected = action.payload;
+      state.selected = action.payload;
     },
     deselect: (state) => {
-      if (state.data) state.data.selected = undefined;
+      state.selected = undefined;
     },
     setLabel: (state, action: PayloadAction<string>) => {
-      if (state.data && state.data.selected !== undefined)
-        state.data.propMap[state.data.selected].label = action.payload;
+      state.selected !== undefined &&
+        (state.propMap[state.selected].label = action.payload);
     },
     setColor: (state, action: PayloadAction<number>) => {
-      if (state.data && state.data.selected !== undefined)
-        state.data.propMap[state.data.selected].colorChoice = action.payload;
+      state.selected !== undefined &&
+        (state.propMap[state.selected].colorChoice = action.payload);
     },
   },
 });
 
-export const { setup, select, setLabel, setColor, deselect } =
-  flowerSlice.actions;
+export const { select, setLabel, setColor, deselect } = flowerSlice.actions;
 export default flowerSlice.reducer;

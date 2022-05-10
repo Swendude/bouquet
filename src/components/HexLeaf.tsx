@@ -21,21 +21,15 @@ const HexLeaf = (props: HexLeafProps) => {
     return pathStr + " Z";
   };
 
-  const colorScale = useAppSelector((state) =>
-    state.flower.data
-      ? chroma.scale(state.flower.data.colorScale).mode("lab").colors(6)
-      : undefined
+  const colorScale: [string] = useAppSelector((state) =>
+    chroma.scale(state.flower.colorScale).mode("lab").colors(6)
   );
+
   const myIndex = useAppSelector((state) =>
-    state.flower.data
-      ? state.flower.data.hexFlower.indexOf(props.hex)
-      : undefined
+    state.flower.hexFlower.indexOf(props.hex)
   );
-  const myProps = useAppSelector((state) =>
-    state.flower.data && myIndex !== undefined
-      ? state.flower.data.propMap[myIndex]
-      : undefined
-  );
+
+  const myProps = useAppSelector((state) => state.flower.propMap[myIndex]);
 
   useEffect(() => {
     let longest = 1;
@@ -49,7 +43,7 @@ const HexLeaf = (props: HexLeafProps) => {
     setFontSize(Math.min(18, props.hex.width() / longest));
   }, [myProps]);
 
-  const myColor = myProps ? colorScale[myProps.colorChoice] : null;
+  const myColor = colorScale[myProps.colorChoice];
   return (
     <g
       transform={`translate(${props.hex.toPoint().x},${props.hex.toPoint().y})`}
@@ -61,25 +55,21 @@ const HexLeaf = (props: HexLeafProps) => {
         strokeWidth={3}
         fill={myProps ? myColor : "none"}
       />
-      {myProps ? (
-        myProps.label.split(" ").map((part, i) => (
-          <text
-            key={i}
-            textAnchor="middle"
-            className="leaf-lable"
-            alignmentBaseline="auto"
-            fill={chroma(myColor).luminance() >= 0.5 ? "#222" : "#fff"}
-            transform={`translate( 0 ${getFontSize * i})`}
-            style={{
-              fontSize: getFontSize,
-            }}
-          >
-            {part}
-          </text>
-        ))
-      ) : (
-        <></>
-      )}
+      {myProps.label.split(" ").map((part, i) => (
+        <text
+          key={i}
+          textAnchor="middle"
+          className="leaf-lable"
+          alignmentBaseline="auto"
+          fill={chroma(myColor).luminance() >= 0.5 ? "#222" : "#fff"}
+          transform={`translate( 0 ${getFontSize * i})`}
+          style={{
+            fontSize: getFontSize,
+          }}
+        >
+          {part}
+        </text>
+      ))}
     </g>
   );
 };
