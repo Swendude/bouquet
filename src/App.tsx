@@ -1,10 +1,10 @@
+import Header from "./components/Header";
 import HexEditor from "./components/HexEditor";
 import HexFlower from "./components/HexFlower";
-
 function App() {
   return (
     <div className="App">
-      <h1>Bouquet 💐</h1>
+      <Header />
       <HexFlower />
       <HexEditor />
     </div>
