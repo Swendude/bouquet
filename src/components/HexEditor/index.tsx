@@ -18,45 +18,47 @@ const HexEditor = () => {
   return (
     <div className="hex-editor">
       <div className="editor-title">
-        {selected === undefined ? (
-          <p>Select a hex to edit!</p>
+        {selected !== undefined && <p>Editing Hex {selected}</p>}
+      </div>
+
+      <div className="editor-content">
+        {selected !== undefined ? (
+          <>
+            {" "}
+            <div className="editor-content-row">
+              <label>Content: </label>
+              <input
+                type="text"
+                value={myProps?.label}
+                onChange={(e) => {
+                  dispatch(setLabel(e.target.value));
+                }}
+                id="hexcontent"
+              />
+            </div>
+            <div className="editor-content-row">
+              <div>
+                <label>Color: </label>
+              </div>
+              <div>
+                {colorScale.map((col, i) => (
+                  <button
+                    key={i}
+                    className={
+                      "color-selector" +
+                      (i === myProps?.colorChoice ? " active" : "")
+                    }
+                    style={{ backgroundColor: col }}
+                    onClick={() => dispatch(setColor(i))}
+                  />
+                ))}
+              </div>
+            </div>
+          </>
         ) : (
-          <p>Editing Hex {selected}</p>
+          <p>Click on a hex to edit it</p>
         )}
       </div>
-      {selected && (
-        <div className="editor-content">
-          <div className="editor-content-row">
-            <label>Content: </label>
-            <input
-              type="text"
-              value={myProps?.label}
-              onChange={(e) => {
-                dispatch(setLabel(e.target.value));
-              }}
-              id="hexcontent"
-            />
-          </div>
-          <div className="editor-content-row">
-            <div>
-              <label>Color: </label>
-            </div>
-            <div>
-              {colorScale.map((col, i) => (
-                <button
-                  key={i}
-                  className={
-                    "color-selector" +
-                    (i === myProps?.colorChoice ? " active" : "")
-                  }
-                  style={{ backgroundColor: col }}
-                  onClick={() => dispatch(setColor(i))}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

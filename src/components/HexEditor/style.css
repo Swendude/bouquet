@@ -1,5 +1,4 @@
 .hex-editor {
-    border: solid 2px black;
     margin-left: 5%;
     margin-right: 5%;
     width: 80%;
@@ -10,10 +9,13 @@
     padding: 0.5rem;
     background: black;
     color: white;
+    min-height: 2.2rem;
 }
 
 .editor-content {
     padding: 0.5rem;
+    border: solid 2px black;
+    min-height: 150px;
 }
 
 .editor-content-row {
