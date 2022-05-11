@@ -11,22 +11,9 @@ const NavigationHex = () => {
 
   const size = useAppSelector((reduxState) => reduxState.flower.size);
 
-  const middlePoint = (first: Point, second: Point): Point => {
-    return first.add(second).divide(2);
-  };
-
   const navigationHex = useAppSelector(
     (reduxState) => reduxState.flower.navigationHex
   );
-
-  //   const hexSides = (corners: Point[]) => [
-  //     middlePoint(corners[4], corners[5]),
-  //     middlePoint(corners[5], corners[0]),
-  //     middlePoint(corners[0], corners[1]),
-  //     middlePoint(corners[1], corners[2]),
-  //     middlePoint(corners[2], corners[3]),
-  //     middlePoint(corners[3], corners[4]),
-  //   ];
 
   const degreesToRad = (deg: number) => deg * (Math.PI / 180);
   const angleToCircumference = (angle: number, size: number): Point =>
@@ -40,10 +27,7 @@ const NavigationHex = () => {
       angleToCircumference(degreesToRad(angle), size)
     );
   return (
-    <svg
-      className="navigation-hex"
-      viewBox={`-${size * 1.2} -${size * 1.2} ${size * 2.4} ${size * 2.4}`}
-    >
+    <g>
       <path
         d={hexPath(hex.corners())}
         stroke={"#222"}
@@ -51,7 +35,7 @@ const NavigationHex = () => {
         fill={"none"}
         transform="scale(0.5)"
       />
-      {[hex.toPoint(), ...hexSides(size * 0.7)].map((mp, i) => (
+      {[hex.toPoint(), ...hexSides(size * 0.8)].map((mp, i) => (
         <g transform={`translate(${mp.x} ${mp.y})`}>
           <text
             textAnchor="middle"
@@ -62,7 +46,7 @@ const NavigationHex = () => {
           </text>
         </g>
       ))}
-    </svg>
+    </g>
   );
 };
 

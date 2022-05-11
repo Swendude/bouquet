@@ -18,6 +18,85 @@ interface flowerSliceState {
   navigationHex: Record<HexDirection, number[]>;
 }
 
+const defaultPropMap: Record<number, hexProps> = {
+  "0": {
+    colorChoice: 5,
+    label: "warm",
+  },
+  "1": {
+    colorChoice: 2,
+    label: " heat",
+  },
+  "2": {
+    colorChoice: 1,
+    label: "scorch-ing heat",
+  },
+  "3": {
+    colorChoice: 5,
+    label: "dry air",
+  },
+  "4": {
+    colorChoice: 5,
+    label: "sunny",
+  },
+  "5": {
+    colorChoice: 2,
+    label: "dry heat",
+  },
+  "6": {
+    colorChoice: 1,
+    label: "Heat wave",
+  },
+  "7": {
+    colorChoice: 6,
+    label: "storm",
+  },
+  "8": {
+    colorChoice: 5,
+    label: "cloudy & humid",
+  },
+  "9": {
+    colorChoice: 3,
+    label: "Clear sky",
+  },
+  "10": {
+    colorChoice: 2,
+    label: "hot wind",
+  },
+  "11": {
+    colorChoice: 0,
+    label: "heat surge",
+  },
+  "12": {
+    colorChoice: 4,
+    label: "drizzle",
+  },
+  "13": {
+    colorChoice: 4,
+    label: "Light over-cast",
+  },
+  "14": {
+    colorChoice: 2,
+    label: "windy",
+  },
+  "15": {
+    colorChoice: 2,
+    label: "land spouts",
+  },
+  "16": {
+    colorChoice: 4,
+    label: "warm rain",
+  },
+  "17": {
+    colorChoice: 2,
+    label: "over-cast",
+  },
+  "18": {
+    colorChoice: 0,
+    label: "tornado",
+  },
+};
+
 const defaultFlower = (size: number): flowerSliceState => {
   const HexFactory = extendHex({
     size: size,
@@ -28,20 +107,20 @@ const defaultFlower = (size: number): flowerSliceState => {
   const hexFlower = GridFactory.hexagon({
     radius: 2,
   });
-  const propMap = [...hexFlower].reduce(
-    (prev, cur) => ({
-      ...prev,
-      [hexFlower.indexOf(cur)]: {
-        colorChoice: Math.floor(Math.random() * 6),
-        label: `${cur.coordinates().x}, ${cur.coordinates().y}`,
-      },
-    }),
-    {}
-  );
+  // const propMap = [...hexFlower].reduce(
+  //   (prev, cur) => ({
+  //     ...prev,
+  //     [hexFlower.indexOf(cur)]: {
+  //       colorChoice: Math.floor(Math.random() * 7),
+  //       label: `${cur.coordinates().x}, ${cur.coordinates().y}`,
+  //     },
+  //   }),
+  //   {}
+  // );
   return {
     size: size,
     hexFlower,
-    propMap,
+    propMap: defaultPropMap,
     colorScale: [random(), random()],
     selected: undefined,
     navigationHex: { C: [], N: [], NE: [], SE: [], S: [], SW: [], NW: [] },

@@ -12,7 +12,7 @@ const HexLeaf = (props: HexLeafProps) => {
   const dispatch = useAppDispatch();
 
   const colorScale: [string] = useAppSelector((state) =>
-    chroma.scale(state.flower.colorScale).mode("lab").colors(6)
+    chroma.scale(state.flower.colorScale).mode("lab").colors(7)
   );
 
   const myIndex = useAppSelector((state) =>
