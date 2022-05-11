@@ -7,12 +7,15 @@ interface hexProps {
   label: string;
 }
 
+type HexDirection = "C" | "N" | "NE" | "SE" | "S" | "SW" | "NW";
+
 interface flowerSliceState {
   size: number;
   hexFlower: Grid;
   propMap: Record<number, hexProps>;
   colorScale: [string, string];
   selected: number | undefined;
+  navigationHex: Record<HexDirection, number[]>;
 }
 
 const defaultFlower = (size: number): flowerSliceState => {
@@ -30,7 +33,7 @@ const defaultFlower = (size: number): flowerSliceState => {
       ...prev,
       [hexFlower.indexOf(cur)]: {
         colorChoice: Math.floor(Math.random() * 6),
-        label: "Fill me",
+        label: `${cur.coordinates().x}, ${cur.coordinates().y}`,
       },
     }),
     {}
@@ -41,6 +44,7 @@ const defaultFlower = (size: number): flowerSliceState => {
     propMap,
     colorScale: [random(), random()],
     selected: undefined,
+    navigationHex: { C: [], N: [], NE: [], SE: [], S: [], SW: [], NW: [] },
   };
 };
 

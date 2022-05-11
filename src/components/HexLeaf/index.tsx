@@ -1,24 +1,15 @@
 import chroma from "chroma-js";
-import { Hex, Point } from "honeycomb-grid";
+import { Hex } from "honeycomb-grid";
 import { select } from "../../store/flowerSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { hexPath } from "../../utils";
 import "./style.css";
-
 interface HexLeafProps {
   hex: Hex<{}>;
 }
 
 const HexLeaf = (props: HexLeafProps) => {
   const dispatch = useAppDispatch();
-
-  const hexPath = (corners: Point[]) => {
-    const [first, ...others] = corners;
-    let pathStr = `M${first.x}, ${first.y} `;
-    others.forEach(({ x, y }, i) => {
-      pathStr += `L${x}, ${y} `;
-    });
-    return pathStr + " Z";
-  };
 
   const colorScale: [string] = useAppSelector((state) =>
     chroma.scale(state.flower.colorScale).mode("lab").colors(6)
