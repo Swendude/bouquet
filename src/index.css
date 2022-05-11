@@ -47,11 +47,6 @@ img {
     gap: 1.5rem;
 }
 
-.leaf-lable {
-    text-transform: uppercase;
-    text-align: center;
-}
-
 .flower-view {
     width: 100%;
     max-width: 650px;

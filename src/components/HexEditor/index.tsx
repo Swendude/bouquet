@@ -1,10 +1,13 @@
 import chroma from "chroma-js";
+import { useState } from "react";
 import { setColor, setLabel } from "../../store/flowerSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import "./style.css";
 
 const HexEditor = () => {
   const dispatch = useAppDispatch();
+
+  const [getLabelFocus, setLabelFocus] = useState(false);
 
   const selected = useAppSelector((state) => state.flower.selected);
 
@@ -15,6 +18,7 @@ const HexEditor = () => {
   const colorScale: [string] = useAppSelector((state) =>
     chroma.scale(state.flower.colorScale).mode("lab").colors(6)
   );
+  const maxInputL = 28;
   return (
     <div className="hex-editor">
       <div className="editor-title">
@@ -28,11 +32,19 @@ const HexEditor = () => {
             <div className="editor-content-row">
               <label>Content: </label>
               <input
+                className={`label-input ${
+                  getLabelFocus && myProps && myProps.label.length >= maxInputL
+                    ? "disabled"
+                    : ""
+                }`}
                 type="text"
+                maxLength={maxInputL}
                 value={myProps?.label}
                 onChange={(e) => {
                   dispatch(setLabel(e.target.value));
                 }}
+                onFocus={() => setLabelFocus(true)}
+                onBlur={() => setLabelFocus(false)}
                 id="hexcontent"
               />
             </div>
