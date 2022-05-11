@@ -13,70 +13,13 @@
     text-transform: uppercase;
     display: inline;
     font-size: 2.5rem;
+    justify-self: center;
 }
 
-.flower {
-    min-width: 2rem;
-    display: inline;
-    right: 1rem;
-}
-
-.flower::before {
-    animation-duration: 16s;
-    animation-name: flowercycle;
-    animation-iteration-count: infinite;
-    content: " ";
+.logo {
     font-size: 2rem;
-    /* min-width: 2rem; */
 }
 
-@keyframes flowercycle {
-    0% {
-        content: "🌼";
-        font-size: 0rem;
-    }
-    7% {
-        content: "🌼";
-        font-size: 2rem;
-    }
-    24% {
-        content: "🌼";
-        font-size: 2rem;
-    }
-    33% {
-        content: "🌼";
-        font-size: 0rem;
-    }
-    34% {
-        content: "🌻";
-        font-size: 0rem;
-    }
-    43% {
-        content: "🌻";
-        font-size: 2rem;
-    }
-    59% {
-        content: "🌻";
-        font-size: 2rem;
-    }
-    66% {
-        content: "🌻";
-        font-size: 0rem;
-    }
-    67% {
-        content: "🌷";
-        font-size: 0rem;
-    }
-    74% {
-        content: "🌷";
-        font-size: 2rem;
-    }
-    93% {
-        content: "🌷";
-        font-size: 2rem;
-    }
-    100% {
-        content: "🌷";
-        font-size: 0rem;
-    }
+.logo.hidden {
+    visibility: hidden;
 }

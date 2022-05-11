@@ -3,9 +3,9 @@ import "./style.css";
 const Header = () => {
   return (
     <div className="header-bar">
-      <div className="flower"></div>
-      <h1 className="header-title"> Bouquet </h1>
-      <div className="flower"></div>
+      <span className="logo">💐</span>
+      <h1 className="header-title">Bouquet</h1>
+      <span className="logo hidden">💐</span>
     </div>
   );
 };
