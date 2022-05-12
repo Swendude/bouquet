@@ -32,6 +32,7 @@ const HexLeaf = (props: HexLeafProps) => {
         stroke={"#eee"}
         strokeWidth={3}
         fill={myProps ? myColor : "none"}
+        className="hexShape"
       />
       <g
         className="text-group"
