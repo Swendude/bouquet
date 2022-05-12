@@ -3,9 +3,7 @@
     text-align: center;
     max-width: 100%;
     max-height: 100%;
-    /* word-break: break-all; */
     font-weight: 600;
-    /* font-size: 0.8rem; */
 }
 
 .label-box {
@@ -18,4 +16,28 @@
     align-items: center;
     justify-content: center;
     cursor: default;
+    pointer-events: none;
+}
+
+.text-el {
+    pointer-events: none;
+}
+
+.hex-shape:not(.selected):hover {
+    animation: hex-grow;
+    animation-timing-function: ease-in-out;
+    animation-duration: 0.5s;
+    animation-iteration-count: 1;
+}
+
+@keyframes hex-grow {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.97);
+    }
+    100% {
+        transform: scale(1);
+    }
 }

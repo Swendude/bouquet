@@ -19,6 +19,12 @@ const HexLeaf = (props: HexLeafProps) => {
     state.flower.hexFlower.indexOf(props.hex)
   );
 
+  const selected = useAppSelector((state) =>
+    state.flower.selected
+      ? state.flower.hexFlower[state.flower.selected] === props.hex
+      : false
+  );
+
   const myProps = useAppSelector((state) => state.flower.propMap[myIndex]);
 
   const myColor = colorScale[myProps.colorChoice];
@@ -32,7 +38,7 @@ const HexLeaf = (props: HexLeafProps) => {
         stroke={"#eee"}
         strokeWidth={3}
         fill={myProps ? myColor : "none"}
-        className="hexShape"
+        className={`hex-shape ${selected ? "selected" : ""}`}
       />
       <g
         className="text-group"
