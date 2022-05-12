@@ -1,10 +1,8 @@
-import { deselect } from "../store/flowerSlice";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import HexLeaf from "./HexLeaf";
+import { deselect } from "../../store/flowerSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import HexLeaf from "../HexLeaf";
 import SelectedHex from "./SelectedHex";
-import SvgDebug from "./SvgDebug";
-import NavigationHex from "./NavigationHex";
-
+import "./style.css";
 const HexFlower = () => {
   const dispatch = useAppDispatch();
   const hexFlower = useAppSelector((state) => state.flower.hexFlower);
@@ -14,7 +12,7 @@ const HexFlower = () => {
     Math.sqrt(3) * state.flower.size,
   ]);
 
-  const hexMargin = 5;
+  const hexMargin = 10;
   const outerBounds = [
     -hexW * 2 - hexMargin,
     -hexH * 2.5 - hexMargin,

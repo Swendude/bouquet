@@ -26,13 +26,7 @@ const SvgDebug = () => {
         </pattern>
       </defs>
 
-      <rect
-        x={"-50%"}
-        y={"-50%"}
-        width="100%"
-        height="100%"
-        fill="url(#grid)"
-      />
+      <rect x={-1000} y={-1000} width={2000} height={2000} fill="url(#grid)" />
     </g>
   );
 };

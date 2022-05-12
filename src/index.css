@@ -2,6 +2,7 @@ body {
     font-family: monospace;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: #121212;
 }
 
 html {
@@ -45,9 +46,4 @@ img {
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
-}
-
-.flower-view {
-    width: 98%;
-    max-width: 480px;
 }

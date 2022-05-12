@@ -20,12 +20,8 @@ const HexEditor = () => {
   );
   const maxInputL = 28;
   return (
-    <div className="hex-editor">
-      <div className="editor-title">
-        {selected !== undefined && <p>Editing Hex {selected}</p>}
-      </div>
-
-      <div className="editor-content">
+    <div className="editor">
+      <div className="hex-editor">
         {selected !== undefined ? (
           <>
             {" "}
@@ -70,6 +66,9 @@ const HexEditor = () => {
         ) : (
           <p>Click on a hex to edit it</p>
         )}
+      </div>
+      <div className="nh-editor">
+        <p>Hello world</p>
       </div>
     </div>
   );

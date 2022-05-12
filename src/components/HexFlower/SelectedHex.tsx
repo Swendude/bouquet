@@ -1,6 +1,6 @@
 import chroma from "chroma-js";
 import { Hex, Point } from "honeycomb-grid";
-import { useAppSelector } from "../store/hooks";
+import { useAppSelector } from "../../store/hooks";
 
 interface SelectedHexProps {
   hex: Hex<{}>;

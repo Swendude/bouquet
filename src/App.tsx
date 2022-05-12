@@ -8,7 +8,6 @@ function App() {
     <div className="App">
       <Header />
       <HexFlower />
-
       <HexEditor />
       <Footer />
     </div>
