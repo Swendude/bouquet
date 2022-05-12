@@ -26,7 +26,7 @@ const HexEditor = () => {
           <>
             {" "}
             <div className="editor-content-row">
-              <label>Content: </label>
+              <label>Content</label>
               <input
                 className={`label-input ${
                   getLabelFocus && myProps && myProps.label.length >= maxInputL
@@ -46,7 +46,7 @@ const HexEditor = () => {
             </div>
             <div className="editor-content-row">
               <div>
-                <label>Color: </label>
+                <label>Color</label>
               </div>
               <div>
                 {colorScale.map((col, i) => (
@@ -66,9 +66,6 @@ const HexEditor = () => {
         ) : (
           <p>Click on a hex to edit it</p>
         )}
-      </div>
-      <div className="nh-editor">
-        <p>Hello world</p>
       </div>
     </div>
   );
