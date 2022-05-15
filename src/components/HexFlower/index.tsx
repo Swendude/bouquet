@@ -1,5 +1,6 @@
 import { deselect } from "../../store/flowerSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { getHexDimensions } from "../../utils";
 import HexLeaf from "../HexLeaf";
 import SelectedHex from "./SelectedHex";
 import "./style.css";
@@ -7,17 +8,17 @@ const HexFlower = () => {
   const dispatch = useAppDispatch();
   const hexFlower = useAppSelector((state) => state.flower.hexFlower);
   const selected = useAppSelector((state) => state.flower.selected);
-  const [hexW, hexH] = useAppSelector((state) => [
-    state.flower.size * 2,
-    Math.sqrt(3) * state.flower.size,
-  ]);
 
-  const hexMargin = 10;
+  const { height, width } = useAppSelector((state) =>
+    getHexDimensions(state.flower.size)
+  );
+
+  const hexMargin = 2;
   const outerBounds = [
-    -hexW * 2 - hexMargin,
-    -hexH * 2.5 - hexMargin,
-    hexW * 4 + hexMargin * 2,
-    hexH * 5 + hexMargin * 2,
+    -width * 2 - hexMargin,
+    -height * 2.5 - hexMargin,
+    width * 4 + hexMargin * 2,
+    height * 5 + hexMargin * 2,
   ];
   return (
     <svg className="flower-view" viewBox={outerBounds.join(" ")}>

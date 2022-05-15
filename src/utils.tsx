@@ -8,3 +8,9 @@ export const hexPath = (corners: Point[]) => {
   });
   return pathStr + " Z";
 };
+
+export const getHexDimensions = (
+  size: number
+): { width: number; height: number } => {
+  return { width: size * 2, height: Math.sqrt(3) * size };
+};
