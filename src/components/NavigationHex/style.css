@@ -9,7 +9,5 @@
 }
 
 .direction-text.active {
-  stroke-width: 4px;
-  stroke: #eee;
   fill: "#121212";
 }

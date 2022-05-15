@@ -48,7 +48,8 @@ const NavigationHex = () => {
   };
 
   const renderDirection = (direction: string, rolls: number[]): string => {
-    return rolls === [] ? "full" : "...";
+    console.log(rolls);
+    return rolls.length > 0 ? rolls.join(",") : "...";
   };
   const dispatch = useAppDispatch();
   return (
@@ -56,7 +57,8 @@ const NavigationHex = () => {
       <path
         d={hexPath(hex.corners())}
         stroke={"#eee"}
-        strokeWidth={1}
+        strokeWidth={3}
+        opacity="0.3"
         fill={"none"}
         transform="scale(0.6)"
       />

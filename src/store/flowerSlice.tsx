@@ -157,7 +157,15 @@ export const flowerSlice = createSlice({
     },
     switchOption: (state, action: PayloadAction<number>) => {
       const choice = Object.keys(state.navigationHex)[state.selectedDirection];
-      state.navigationHex[choice as HexDirection].push(action.payload);
+      if (
+        state.navigationHex[choice as HexDirection].includes(action.payload)
+      ) {
+        state.navigationHex[choice as HexDirection] = state.navigationHex[
+          choice as HexDirection
+        ].filter((num) => num !== action.payload);
+      } else {
+        state.navigationHex[choice as HexDirection].push(action.payload);
+      }
     },
   },
 });
