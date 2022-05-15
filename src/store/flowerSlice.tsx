@@ -14,8 +14,11 @@ interface flowerSliceState {
   hexFlower: Grid;
   propMap: Record<number, hexProps>;
   colorScale: [string, string];
-  selected: number | undefined;
   navigationHex: Record<HexDirection, number[]>;
+  navigationOptions: number[];
+  // UX stuff
+  selected: number | undefined;
+  selectedDirection: number;
 }
 
 const defaultPropMap: Record<number, hexProps> = {
@@ -124,6 +127,8 @@ const defaultFlower = (size: number): flowerSliceState => {
     colorScale: [random(), random()],
     selected: undefined,
     navigationHex: { C: [], N: [], NE: [], SE: [], S: [], SW: [], NW: [] },
+    navigationOptions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    selectedDirection: 0,
   };
 };
 
@@ -147,8 +152,22 @@ export const flowerSlice = createSlice({
       state.selected !== undefined &&
         (state.propMap[state.selected].colorChoice = action.payload);
     },
+    selectDirection: (state, action: PayloadAction<number>) => {
+      state.selectedDirection = action.payload;
+    },
+    switchOption: (state, action: PayloadAction<number>) => {
+      const choice = Object.keys(state.navigationHex)[state.selectedDirection];
+      state.navigationHex[choice as HexDirection].push(action.payload);
+    },
   },
 });
 
-export const { select, setLabel, setColor, deselect } = flowerSlice.actions;
+export const {
+  switchOption,
+  selectDirection,
+  select,
+  setLabel,
+  setColor,
+  deselect,
+} = flowerSlice.actions;
 export default flowerSlice.reducer;

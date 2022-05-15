@@ -1,0 +1,34 @@
+.options {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.option-button {
+  background-color: #222;
+  color: #eee;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 6px;
+  text-align: center;
+  display: inline-block;
+  width: 6rem;
+  height: 4rem;
+  cursor: pointer;
+}
+
+.option-button.owned {
+  background-color: #eee;
+  color: #222;
+  font-weight: bolder;
+}
+.option-button.taken {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.option-button:not(.taken):hover {
+  background-color: #eee;
+  color: #222;
+}

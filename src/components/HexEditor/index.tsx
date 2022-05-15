@@ -2,7 +2,9 @@ import chroma from "chroma-js";
 import { useState } from "react";
 import { setColor, setLabel } from "../../store/flowerSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import NavigationHex from "../NavigationHex";
 import "./style.css";
+import DirectionEditor from "../DirectionEditor";
 
 const HexEditor = () => {
   const dispatch = useAppDispatch();
@@ -21,52 +23,59 @@ const HexEditor = () => {
   const maxInputL = 28;
   return (
     <div className="editor">
-      <div className="hex-editor">
-        {selected !== undefined ? (
-          <>
-            {" "}
-            <div className="editor-content-row">
-              <label>Content</label>
-              <input
-                className={`label-input ${
-                  getLabelFocus && myProps && myProps.label.length >= maxInputL
-                    ? "disabled"
-                    : ""
-                }`}
-                type="text"
-                maxLength={maxInputL}
-                value={myProps?.label}
-                onChange={(e) => {
-                  dispatch(setLabel(e.target.value));
-                }}
-                onFocus={() => setLabelFocus(true)}
-                onBlur={() => setLabelFocus(false)}
-                id="hexcontent"
-              />
+      {selected !== undefined ? (
+        <>
+          <div className="hex-editor-content-row">
+            <label>Content</label>
+            <input
+              className={`label-input ${
+                getLabelFocus && myProps && myProps.label.length >= maxInputL
+                  ? "disabled"
+                  : ""
+              }`}
+              type="text"
+              maxLength={maxInputL}
+              value={myProps?.label}
+              onChange={(e) => {
+                dispatch(setLabel(e.target.value));
+              }}
+              onFocus={() => setLabelFocus(true)}
+              onBlur={() => setLabelFocus(false)}
+              id="hexcontent"
+            />
+          </div>
+          <div className="hex-editor-content-row">
+            <div>
+              <label>Color</label>
             </div>
-            <div className="editor-content-row">
-              <div>
-                <label>Color</label>
-              </div>
-              <div>
-                {colorScale.map((col, i) => (
-                  <button
-                    key={i}
-                    className={
-                      "color-selector" +
-                      (i === myProps?.colorChoice ? " active" : "")
-                    }
-                    style={{ backgroundColor: col }}
-                    onClick={() => dispatch(setColor(i))}
-                  />
-                ))}
-              </div>
+            <div>
+              {colorScale.map((col, i) => (
+                <button
+                  key={i}
+                  className={
+                    "color-selector" +
+                    (i === myProps?.colorChoice ? " active" : "")
+                  }
+                  style={{ backgroundColor: col }}
+                  onClick={() => dispatch(setColor(i))}
+                />
+              ))}
             </div>
-          </>
-        ) : (
-          <p>Click on a hex to edit it</p>
-        )}
-      </div>
+          </div>
+        </>
+      ) : (
+        <div className="play-content">
+          <div className="nh">
+            <NavigationHex />
+          </div>
+          <div className="hex-editor-content-row">
+            <h3>Select a direction to edit it</h3>
+          </div>
+          <div className="hex-editor-content-row">
+            <DirectionEditor />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

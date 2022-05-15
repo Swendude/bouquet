@@ -1,4 +1,15 @@
 .navigation-hex {
-    width: 20%;
-    max-width: 300px;
+  margin: 1rem;
+}
+
+.direction-text:hover {
+  stroke-width: 2px;
+  stroke: #eee;
+  fill: "#121212";
+}
+
+.direction-text.active {
+  stroke-width: 4px;
+  stroke: #eee;
+  fill: "#121212";
 }
