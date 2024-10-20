@@ -18,24 +18,37 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  test:
+  test-and-release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.2.1
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.0.4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
       - name: Run tests
-        run: "npx vitest run"
-          
-  # Build job
-  build:
-    runs-on: ubuntu-latest
-    environment:
-      name: demo
-      url: ${{ steps.deploy_to_pages.outputs.github_pages_url }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Vite Github Pages Deployer
-        uses: skywarth/vite-github-pages-deployer@master
-        id: deploy_to_pages
+        run: pnpm run test
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "./dist"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

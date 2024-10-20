@@ -1,9 +1,12 @@
 import { deselect } from "../../store/flowerSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { centeredViewBox, getHexDimensions } from "../../utils";
+
 import HexLeaf from "../HexLeaf";
 import SelectedHex from "./SelectedHex";
+
 import "./style.css";
+
 const HexFlower = () => {
   const dispatch = useAppDispatch();
   const hexFlower = useAppSelector((state) => state.flower.hexFlower);
