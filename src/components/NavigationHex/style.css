@@ -11,3 +11,11 @@
 .direction-text.active {
   fill: "#121212";
 }
+
+.direction-label {
+  stroke: "#eee";
+  fill: "#121212";
+}
+
+.direction-roll {
+}

@@ -10,7 +10,7 @@ export const hexPath = (corners: Point[]) => {
 };
 
 export const getHexDimensions = (
-  size: number
+  size: number,
 ): { width: number; height: number } => {
   return { width: size * 2, height: Math.sqrt(3) * size };
 };
@@ -25,8 +25,8 @@ export const centeredViewBox = (
   },
   margin: number,
   rows: number,
-  cols: number
-): number[] => [
+  cols: number,
+): [number, number, number, number] => [
   (-width * rows) / 2 - margin,
   (-height * cols) / 2 - margin,
   width * rows + margin * 2,
