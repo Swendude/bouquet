@@ -99,7 +99,15 @@ const defaultPropMap: Record<number, hexProps> = {
     label: "tornado",
   },
 };
-
+type NavigationHex = {
+  Ce: number[];
+  No: number[];
+  NE: number[];
+  SE: number[];
+  SO: number[];
+  SW: number[];
+  NW: number[];
+};
 const defaultFlower = (size: number): flowerSliceState => {
   const HexFactory = extendHex({
     size: size,
