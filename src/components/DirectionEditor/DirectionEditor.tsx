@@ -1,5 +1,3 @@
-import { switchOption } from "../../store/flowerSlice";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import "./style.css";
 type OptionState = "available" | "taken" | "owned";
 
@@ -7,13 +5,13 @@ const DirectionEditor = () => {
   const dispatch = useAppDispatch();
   const navOptions = useAppSelector((state) => state.flower.navigationOptions);
   const selectedDirection = useAppSelector(
-    (state) => state.flower.selectedDirection
+    (state) => state.flower.selectedDirection,
   );
   const navHex = useAppSelector((state) => state.flower.navigationHex);
   const currentValids = (
     options: number[],
     selection: number,
-    navigation: Record<string, number[]>
+    navigation: Record<string, number[]>,
   ): { number: number; state: OptionState }[] => {
     const currentOption = Object.keys(navigation)[selection];
     return options.map((option) => {
@@ -23,7 +21,7 @@ const DirectionEditor = () => {
           .map(([key, rolls]) => rolls)
           .flat()
           .includes(selection),
-        selection
+        selection,
       );
       if (navigation[currentOption].includes(option)) {
         return { number: option, state: "owned" };

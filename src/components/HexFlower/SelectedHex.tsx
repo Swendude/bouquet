@@ -1,6 +1,6 @@
 import chroma from "chroma-js";
 import { Hex, Point } from "honeycomb-grid";
-import { useAppSelector } from "../../store/hooks";
+import { useHexflowerContext } from "../HexReducerContext";
 
 interface SelectedHexProps {
   hex: Hex<{}>;
@@ -16,17 +16,16 @@ const SelectedHex = (props: SelectedHexProps) => {
     return pathStr + " Z";
   };
 
-  const colorScale: [string] = useAppSelector((state) =>
-    chroma.scale(state.flower.colorScale).mode("lab").colors(7)
-  );
+  const { state } = useHexflowerContext();
 
-  const myIndex = useAppSelector((state) =>
-    state.flower.hexFlower.indexOf(props.hex)
-  );
+  const colorScale: [string] = chroma
+    .scale(state.colorScale)
+    .mode("lab")
+    .colors(7);
 
-  const myProps = useAppSelector((state) =>
-    myIndex >= 0 ? state.flower.propMap[myIndex] : undefined
-  );
+  const myIndex = state.hexFlower.indexOf(props.hex);
+
+  const myProps = myIndex >= 0 ? state.propMap[myIndex] : undefined;
 
   const myColor = myProps ? colorScale[myProps.colorChoice] : undefined;
   return (

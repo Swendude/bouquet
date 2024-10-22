@@ -1,7 +1,5 @@
 import chroma from "chroma-js";
 import { useState } from "react";
-import { setColor, setLabel } from "../../store/flowerSlice";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import NavigationHex from "../NavigationHex";
 import "./style.css";
 import DirectionEditor from "../DirectionEditor";
@@ -14,11 +12,11 @@ const HexEditor = () => {
   const selected = useAppSelector((state) => state.flower.selected);
 
   const myProps = useAppSelector((state) =>
-    selected !== undefined ? state.flower.propMap[selected] : undefined
+    selected !== undefined ? state.flower.propMap[selected] : undefined,
   );
 
   const colorScale: [string] = useAppSelector((state) =>
-    chroma.scale(state.flower.colorScale).mode("lab").colors(7)
+    chroma.scale(state.flower.colorScale).mode("lab").colors(7),
   );
   const maxInputL = 28;
   return (

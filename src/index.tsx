@@ -3,15 +3,18 @@ import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import App from "./App";
 import "./index.css";
-import { store } from "./store/store";
-
+import {
+  HexflowerContextProvider,
+  initialHexflower,
+} from "./components/HexReducerContext";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
 );
 root.render(
-  <Provider store={store}>
-    <React.StrictMode>
+  <React.StrictMode>
+    <HexflowerContextProvider initial={initialHexflower(50)}>
       <App />
-    </React.StrictMode>
-  </Provider>,
+    </HexflowerContextProvider>
+    ,
+  </React.StrictMode>,
 );

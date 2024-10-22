@@ -1,36 +1,34 @@
 import chroma from "chroma-js";
 import { Hex } from "honeycomb-grid";
-import { select } from "../../store/flowerSlice";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { hexPath } from "../../utils";
 import "./style.css";
+import { useHexflowerContext } from "../HexReducerContext";
 interface HexLeafProps {
   hex: Hex<{}>;
 }
 
 const HexLeaf = (props: HexLeafProps) => {
-  const dispatch = useAppDispatch();
+  const { dispatch, state } = useHexflowerContext();
 
-  const colorScale: [string] = useAppSelector((state) =>
-    chroma.scale(state.flower.colorScale).mode("lab").colors(7)
-  );
+  const colorScale: [string] = chroma
+    .scale(state.colorScale)
+    .mode("lab")
+    .colors(7);
 
-  const myIndex = useAppSelector((state) =>
-    state.flower.hexFlower.indexOf(props.hex)
-  );
+  const myIndex = state.hexFlower.indexOf(props.hex);
 
-  const selected = useAppSelector((state) =>
-    state.flower.selected
-      ? state.flower.hexFlower[state.flower.selected] === props.hex
-      : false
-  );
+  const selected = state.selected
+    ? state.hexFlower[state.selected] === props.hex
+    : false;
 
-  const myProps = useAppSelector((state) => state.flower.propMap[myIndex]);
+  const myProps = state.propMap[myIndex];
 
   const myColor = colorScale[myProps.colorChoice];
   return (
     <g
-      onClick={() => myIndex !== undefined && dispatch(select(myIndex))}
+      onClick={() =>
+        myIndex !== undefined && dispatch({ name: "select", payload: myIndex })
+      }
       transform={`translate(${props.hex.toPoint().x},${props.hex.toPoint().y})`}
     >
       <path

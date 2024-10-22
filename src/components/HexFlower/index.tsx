@@ -1,18 +1,18 @@
-import { deselect } from "../../store/flowerSlice";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { centeredViewBox, getHexDimensions } from "../../utils";
 
 import HexLeaf from "../HexLeaf";
+import { useHexflowerContext } from "../HexReducerContext";
 import SelectedHex from "./SelectedHex";
 
 import "./style.css";
 
 const HexFlower = () => {
-  const dispatch = useAppDispatch();
-  const hexFlower = useAppSelector((state) => state.flower.hexFlower);
-  const selected = useAppSelector((state) => state.flower.selected);
+  const { dispatch, state } = useHexflowerContext();
+  // const dispatch = useAppDispatch();
+  const hexFlower = state.hexFlower;
+  const selected = state.selected;
 
-  const size = useAppSelector((state) => state.flower.size);
+  const size = state.size;
 
   const vb = centeredViewBox(getHexDimensions(size), 2, 4, 5);
   return (
@@ -23,7 +23,7 @@ const HexFlower = () => {
         width={vb[2]}
         height={vb[3]}
         opacity={0}
-        onClick={() => dispatch(deselect())}
+        onClick={() => dispatch({ name: "deselect" })}
       />
 
       <g>
@@ -32,7 +32,7 @@ const HexFlower = () => {
         ))}
       </g>
 
-      {selected !== undefined && (
+      {selected && (
         <g>
           <SelectedHex hex={hexFlower[selected]} />
         </g>

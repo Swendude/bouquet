@@ -1,6 +1,4 @@
 import { Hex, Point } from "honeycomb-grid";
-import { selectDirection } from "../../store/flowerSlice";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { centeredViewBox, getHexDimensions, hexPath } from "../../utils";
 import "./style.css";
 import { ReactElement } from "react";
