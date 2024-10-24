@@ -1,120 +1,140 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { random } from "chroma-js";
-import { defineGrid, extendHex, Grid } from "honeycomb-grid";
+import {
+  createHexDimensions,
+  Grid,
+  Hex,
+  HexCoordinates,
+  Orientation,
+  spiral,
+} from "honeycomb-grid";
 import { createReducerContext } from "../../lib/reducerContext";
 
-interface hexProps {
+interface flowerHexProps {
   colorChoice: number;
   label: string;
+}
+
+export class FlowerHex extends Hex {
+  props!: flowerHexProps;
+
+  get dimensions() {
+    return createHexDimensions(50);
+  }
+  get orientation() {
+    return Orientation.FLAT;
+  }
+  static create(coordinates: HexCoordinates, props: flowerHexProps) {
+    const hex = new FlowerHex(coordinates);
+    hex.props = props;
+    return hex;
+  }
 }
 
 type HexDirection = "C" | "N" | "NE" | "SE" | "S" | "SW" | "NW";
 
 interface HexflowerState {
   size: number;
-  hexFlower: Grid;
-  propMap: Record<number, hexProps>;
+  hexGrid: Grid<FlowerHex>;
   colorScale: [string, string];
-  navigationHex: Record<HexDirection, number[]>;
+  navigationHex: Required<Record<HexDirection, number[]>>;
   diceRange: [number, number];
   // UX stuff
   selected: number | null;
   selectedDirection: number;
 }
 
-const defaultPropMap: Record<number, hexProps> = {
-  "0": {
+const defaultFlower: { [key: string]: flowerHexProps } = {
+  "-2,0": {
     colorChoice: 5,
     label: "warm",
   },
-  "1": {
+  "-2,1": {
     colorChoice: 2,
     label: "heat",
   },
-  "2": {
+  "-2,2": {
     colorChoice: 1,
     label: "scorch-ing heat",
   },
-  "3": {
+  "-1,-1": {
     colorChoice: 5,
     label: "dry air",
   },
-  "4": {
+  "-1,0": {
     colorChoice: 5,
     label: "sunny",
   },
-  "5": {
+  "-1,1": {
     colorChoice: 2,
     label: "dry heat",
   },
-  "6": {
+  "-1,2": {
     colorChoice: 1,
     label: "heat wave",
   },
-  "7": {
+  "0, -2": {
     colorChoice: 6,
     label: "storm",
   },
-  "8": {
+  "0,-1": {
     colorChoice: 5,
     label: "cloudy & humid",
   },
-  "9": {
+  "0,0": {
     colorChoice: 3,
     label: "clear sky",
   },
-  "10": {
+  "0,1": {
     colorChoice: 2,
     label: "hot wind",
   },
-  "11": {
+  "0,2": {
     colorChoice: 0,
     label: "heat surge",
   },
-  "12": {
+  "1,-2": {
     colorChoice: 4,
     label: "drizzle",
   },
-  "13": {
+  "1,-1": {
     colorChoice: 4,
     label: "light over-cast",
   },
-  "14": {
+  "1,0": {
     colorChoice: 2,
     label: "windy",
   },
-  "15": {
+  "1,1": {
     colorChoice: 2,
     label: "land spouts",
   },
-  "16": {
+  "2,-2": {
     colorChoice: 4,
     label: "warm rain",
   },
-  "17": {
+  "2,-1": {
     colorChoice: 2,
     label: "over-cast",
   },
-  "18": {
+  "2,0": {
     colorChoice: 0,
     label: "tornado",
   },
 };
 
+export const parseStrCoord = (strCoord: string): [number, number] => {
+  const parsed = strCoord.split(",").map(Number);
+  return [parsed[0], parsed[1]];
+};
+
 export const initialHexflower = (size: number): HexflowerState => {
-  const HexFactory = extendHex({
-    size: size,
-    origin: [2 * size * 0.5, Math.sqrt(3) * size * 0.5],
-    orientation: "flat",
-  });
-  const GridFactory = defineGrid(HexFactory);
-  const hexFlower = GridFactory.hexagon({
-    radius: 2,
-  });
+  const hexes = Object.entries(defaultFlower).map(([strCoords, props]) =>
+    FlowerHex.create(parseStrCoord(strCoords), props),
+  );
+
   return {
     size: size,
-    hexFlower,
-    propMap: defaultPropMap,
+    hexGrid: new Grid(FlowerHex, hexes),
     colorScale: [random(), random()],
     selected: null,
     navigationHex: { C: [], N: [], NE: [], SE: [], S: [], SW: [], NW: [] },
@@ -122,8 +142,6 @@ export const initialHexflower = (size: number): HexflowerState => {
     selectedDirection: 0,
   };
 };
-
-const initialState = initialHexflower(50);
 
 type hexflowerAction =
   | { name: "select"; payload: number }
@@ -139,7 +157,7 @@ const hexflowerReducer = (
 ): HexflowerState => {
   switch (action.name) {
     case "select":
-      const hexCount = state.hexFlower.length;
+      const hexCount = state.hexGrid.size;
       if (0 <= action.payload && action.payload < hexCount) {
         return { ...state, selected: action.payload };
       }
@@ -164,35 +182,3 @@ const hexflowerReducerContext = createReducerContext(hexflowerReducer);
 
 export const HexflowerContextProvider = hexflowerReducerContext.provider;
 export const useHexflowerContext = hexflowerReducerContext.useContext;
-//     select: (state, action: PayloadAction<number>) => {
-//       state.selected = action.payload;
-//     },
-//     deselect: (state) => {
-//       state.selected = undefined;
-//     },
-//     setLabel: (state, action: PayloadAction<string>) => {
-//       state.selected !== undefined &&
-//         (state.propMap[state.selected].label = action.payload);
-//     },
-//     setColor: (state, action: PayloadAction<number>) => {
-//       state.selected !== undefined &&
-//         (state.propMap[state.selected].colorChoice = action.payload);
-//     },
-//     selectDirection: (state, action: PayloadAction<number>) => {
-//       state.selectedDirection = action.payload;
-//     },
-//     switchOption: (state, action: PayloadAction<number>) => {
-//       const choice = Object.keys(state.navigationHex)[state.selectedDirection];
-//       if (
-//         state.navigationHex[choice as HexDirection].includes(action.payload)
-//       ) {
-//         state.navigationHex[choice as HexDirection] = state.navigationHex[
-//           choice as HexDirection
-//         ].filter((num) => num !== action.payload);
-//       } else {
-//         state.navigationHex[choice as HexDirection].push(action.payload);
-//       }
-//     },
-//   },
-// });
-//

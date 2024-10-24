@@ -8,8 +8,7 @@ import "./style.css";
 
 const HexFlower = () => {
   const { dispatch, state } = useHexflowerContext();
-  // const dispatch = useAppDispatch();
-  const hexFlower = state.hexFlower;
+  const grid = state.hexGrid;
   const selected = state.selected;
 
   const size = state.size;
@@ -27,16 +26,16 @@ const HexFlower = () => {
       />
 
       <g>
-        {[...hexFlower].map((el, i) => (
-          <HexLeaf key={i} hex={el} />
+        {grid.toArray().map((hex) => (
+          <HexLeaf key={hex.toString()} hex={hex} />
         ))}
       </g>
 
-      {selected && (
-        <g>
-          <SelectedHex hex={hexFlower[selected]} />
-        </g>
-      )}
+      {/* {selected && ( */}
+      {/*   <g> */}
+      {/*     <SelectedHex hex={grid.toArray()[selected]} /> */}
+      {/*   </g> */}
+      {/* )} */}
       {/* <g transform={`translate(${size * 3} ${Math.sqrt(3) * size * 2.5})`}>
         <NavigationHex />
       </g> */}
