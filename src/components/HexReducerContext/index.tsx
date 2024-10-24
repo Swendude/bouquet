@@ -5,7 +5,6 @@ import {
   Hex,
   HexCoordinates,
   Orientation,
-  spiral,
 } from "honeycomb-grid";
 import { createReducerContext } from "../../lib/reducerContext";
 
@@ -54,11 +53,11 @@ const defaultFlower: { [key: string]: flowerHexProps } = {
   },
   "-2,2": {
     colorChoice: 1,
-    label: "scorch-ing heat",
+    label: "scorching heat",
   },
   "-1,-1": {
     colorChoice: 5,
-    label: "dry air",
+    label: "dry air lkahsj hsjdhj jshdhdhf jhd  ",
   },
   "-1,0": {
     colorChoice: 5,

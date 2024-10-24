@@ -8,7 +8,7 @@ interface HexLeafProps {
   hex: FlowerHex;
 }
 
-const HexLeaf = (props: HexLeafProps) => {
+const HexLeaf = ({ hex }: HexLeafProps) => {
   const { dispatch, state } = useHexflowerContext();
 
   const colorScale: string[] = chroma
@@ -16,50 +16,38 @@ const HexLeaf = (props: HexLeafProps) => {
     .mode("lab")
     .colors(7);
 
-  // const myIndex = state.hexGrid.indexOf(props.hex);
-
-  // const selected = state.selected
-  // ? state.hexGrid[state.selected] === props.hex
-  // : false;
-
-  // const myProps = state.propMap[myIndex];
-  const hCenter = hexToPoint(props.hex);
-  const myColor = colorScale[1];
+  const hCenter = hexToPoint(hex);
+  const hColor = colorScale[hex.props.colorChoice];
   return (
     <>
       <path
-        d={hexPath(props.hex.corners)}
+        d={hexPath(hex.corners)}
         stroke={"#eee"}
         strokeWidth={3}
-        fill={myColor}
+        fill={hColor}
         // className={`hex-shape ${selected ? "selected" : ""}`}
         className={`hex-shape`}
       />
-      <g
-        // onClick={() =>
-        // myIndex !== undefined && dispatch({ name: "select", payload: myIndex })
-        //}
-        transform={`translate(${hCenter.x},${hCenter.y})`}
-      >
+      <g transform={`translate(${hCenter.x},${hCenter.y})`}>
         <g
           className="text-group"
-          transform={`translate(-${props.hex.height * 0.35} -${
-            props.hex.height * 0.35
-          } )`}
+          // transform={`translate(-${hex.height * 0.25} -${hex.height * 0.25} )`}
         >
           <foreignObject
-            width={props.hex.height * 0.7}
-            height={props.hex.height * 0.7}
+            width={hex.width * (2 / 3)}
+            height={hex.height * (2 / 3)}
             className="text-el"
+            transform={`translate(-${hex.width * (1 / 3)} -${hex.height * (1 / 3)})`}
           >
             <div className="label-box">
               <p
                 className="leaf-label"
                 style={{
-                  color: chroma(myColor).luminance() >= 0.5 ? "#222" : "#fff",
+                  color: chroma(hColor).luminance() >= 0.5 ? "#222" : "#fff",
                 }}
               >
-                {`${props.hex.q}, ${props.hex.r}`}
+                {/* {`${hex.q}, ${hex.r}`} */}
+                {hex.props.label}
               </p>
             </div>
           </foreignObject>
