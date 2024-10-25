@@ -7,25 +7,37 @@ import {
   Orientation,
 } from "honeycomb-grid";
 import { createReducerContext } from "../../lib/reducerContext";
+import { defaultFlower } from "./defaultFlower";
 
-interface flowerHexProps {
+export interface flowerHexProps {
   colorChoice: number;
   label: string;
 }
 
 export class FlowerHex extends Hex {
   props!: flowerHexProps;
+  static size: number;
 
   get dimensions() {
-    return createHexDimensions(50);
+    return createHexDimensions(FlowerHex.size);
   }
   get orientation() {
     return Orientation.FLAT;
   }
-  static create(coordinates: HexCoordinates, props: flowerHexProps) {
+  static create(
+    coordinates: HexCoordinates,
+    props: flowerHexProps,
+    size: number,
+  ) {
     const hex = new FlowerHex(coordinates);
     hex.props = props;
+    FlowerHex.setSize(size);
     return hex;
+  }
+
+  static setSize(newSize: number) {
+    FlowerHex.size = newSize;
+    return this;
   }
 }
 
@@ -37,89 +49,9 @@ interface HexflowerState {
   colorScale: [string, string];
   navigationHex: Required<Record<HexDirection, number[]>>;
   diceRange: [number, number];
-  // UX stuff
   selected: number | null;
   selectedDirection: number;
 }
-
-const defaultFlower: { [key: string]: flowerHexProps } = {
-  "-2,0": {
-    colorChoice: 5,
-    label: "warm",
-  },
-  "-2,1": {
-    colorChoice: 2,
-    label: "heat",
-  },
-  "-2,2": {
-    colorChoice: 1,
-    label: "scorching heat",
-  },
-  "-1,-1": {
-    colorChoice: 5,
-    label: "dry air lkahsj hsjdhj jshdhdhf jhd  ",
-  },
-  "-1,0": {
-    colorChoice: 5,
-    label: "sunny",
-  },
-  "-1,1": {
-    colorChoice: 2,
-    label: "dry heat",
-  },
-  "-1,2": {
-    colorChoice: 1,
-    label: "heat wave",
-  },
-  "0, -2": {
-    colorChoice: 6,
-    label: "storm",
-  },
-  "0,-1": {
-    colorChoice: 5,
-    label: "cloudy & humid",
-  },
-  "0,0": {
-    colorChoice: 3,
-    label: "clear sky",
-  },
-  "0,1": {
-    colorChoice: 2,
-    label: "hot wind",
-  },
-  "0,2": {
-    colorChoice: 0,
-    label: "heat surge",
-  },
-  "1,-2": {
-    colorChoice: 4,
-    label: "drizzle",
-  },
-  "1,-1": {
-    colorChoice: 4,
-    label: "light over-cast",
-  },
-  "1,0": {
-    colorChoice: 2,
-    label: "windy",
-  },
-  "1,1": {
-    colorChoice: 2,
-    label: "land spouts",
-  },
-  "2,-2": {
-    colorChoice: 4,
-    label: "warm rain",
-  },
-  "2,-1": {
-    colorChoice: 2,
-    label: "over-cast",
-  },
-  "2,0": {
-    colorChoice: 0,
-    label: "tornado",
-  },
-};
 
 export const parseStrCoord = (strCoord: string): [number, number] => {
   const parsed = strCoord.split(",").map(Number);
@@ -128,7 +60,7 @@ export const parseStrCoord = (strCoord: string): [number, number] => {
 
 export const initialHexflower = (size: number): HexflowerState => {
   const hexes = Object.entries(defaultFlower).map(([strCoords, props]) =>
-    FlowerHex.create(parseStrCoord(strCoords), props),
+    FlowerHex.create(parseStrCoord(strCoords), props, size),
   );
 
   return {
@@ -148,7 +80,8 @@ type hexflowerAction =
   | { name: "setLabel"; payload: string }
   | { name: "setColor"; payload: number }
   | { name: "selectDirection"; payload: number }
-  | { name: "switchSelection"; payload: number };
+  | { name: "switchSelection"; payload: number }
+  | { name: "changeSize"; payload: number };
 
 const hexflowerReducer = (
   state: HexflowerState,
@@ -174,6 +107,13 @@ const hexflowerReducer = (
       return state;
     case "switchSelection":
       return state;
+    case "changeSize":
+      return {
+        ...state,
+        hexGrid: state.hexGrid.map((hex) =>
+          hex.setSize(hex.size + action.payload),
+        ),
+      };
   }
 };
 

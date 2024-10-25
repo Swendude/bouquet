@@ -15,31 +15,39 @@ const HexFlower = () => {
 
   const vb = centeredViewBox(getHexDimensions(size), 2, 4, 5);
   return (
-    <svg className="flower-view" viewBox={vb.join(" ")}>
-      <rect
-        x={vb[0]}
-        y={vb[1]}
-        width={vb[2]}
-        height={vb[3]}
-        opacity={0}
-        onClick={() => dispatch({ name: "deselect" })}
-      />
+    <>
+      <svg className="flower-view" viewBox={vb.join(" ")}>
+        <rect
+          x={vb[0]}
+          y={vb[1]}
+          width={vb[2]}
+          height={vb[3]}
+          opacity={0}
+          onClick={() => dispatch({ name: "deselect" })}
+        />
 
-      <g>
-        {grid.toArray().map((hex) => (
-          <HexLeaf key={hex.toString()} hex={hex} />
-        ))}
-      </g>
+        <g>
+          {grid.toArray().map((hex) => (
+            <HexLeaf key={hex.toString()} hex={hex} />
+          ))}
+        </g>
 
-      {/* {selected && ( */}
-      {/*   <g> */}
-      {/*     <SelectedHex hex={grid.toArray()[selected]} /> */}
-      {/*   </g> */}
-      {/* )} */}
-      {/* <g transform={`translate(${size * 3} ${Math.sqrt(3) * size * 2.5})`}>
+        {/* {selected && ( */}
+        {/*   <g> */}
+        {/*     <SelectedHex hex={grid.toArray()[selected]} /> */}
+        {/*   </g> */}
+        {/* )} */}
+        {/* <g transform={`translate(${size * 3} ${Math.sqrt(3) * size * 2.5})`}>
         <NavigationHex />
       </g> */}
-    </svg>
+      </svg>
+      <button onClick={() => dispatch({ name: "changeSize", payload: 1 })}>
+        +
+      </button>
+      <button onClick={() => dispatch({ name: "changeSize", payload: -1 })}>
+        -
+      </button>
+    </>
   );
 };
 
