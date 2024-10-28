@@ -31,22 +31,12 @@ const HexFlower = () => {
             <HexLeaf key={hex.toString()} hex={hex} />
           ))}
         </g>
-
-        {/* {selected && ( */}
-        {/*   <g> */}
-        {/*     <SelectedHex hex={grid.toArray()[selected]} /> */}
-        {/*   </g> */}
-        {/* )} */}
-        {/* <g transform={`translate(${size * 3} ${Math.sqrt(3) * size * 2.5})`}>
-        <NavigationHex />
-      </g> */}
+        {state.selected && (
+          <g>
+            <SelectedHex hex={state.selected} />
+          </g>
+        )}
       </svg>
-      <button onClick={() => dispatch({ name: "changeSize", payload: 1 })}>
-        +
-      </button>
-      <button onClick={() => dispatch({ name: "changeSize", payload: -1 })}>
-        -
-      </button>
     </>
   );
 };

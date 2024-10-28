@@ -8,6 +8,8 @@ import {
 } from "honeycomb-grid";
 import { createReducerContext } from "../../lib/reducerContext";
 import { defaultFlower } from "./defaultFlower";
+import HexFlower from "../HexFlower";
+import { getHexDimensions } from "../../utils";
 
 export interface flowerHexProps {
   colorChoice: number;
@@ -16,28 +18,18 @@ export interface flowerHexProps {
 
 export class FlowerHex extends Hex {
   props!: flowerHexProps;
-  static size: number;
 
   get dimensions() {
-    return createHexDimensions(FlowerHex.size);
+    return createHexDimensions(50);
   }
+
   get orientation() {
     return Orientation.FLAT;
   }
-  static create(
-    coordinates: HexCoordinates,
-    props: flowerHexProps,
-    size: number,
-  ) {
+  static create(coordinates: HexCoordinates, props: flowerHexProps) {
     const hex = new FlowerHex(coordinates);
     hex.props = props;
-    FlowerHex.setSize(size);
     return hex;
-  }
-
-  static setSize(newSize: number) {
-    FlowerHex.size = newSize;
-    return this;
   }
 }
 
@@ -49,7 +41,7 @@ interface HexflowerState {
   colorScale: [string, string];
   navigationHex: Required<Record<HexDirection, number[]>>;
   diceRange: [number, number];
-  selected: number | null;
+  selected: FlowerHex | null;
   selectedDirection: number;
 }
 
@@ -60,7 +52,7 @@ export const parseStrCoord = (strCoord: string): [number, number] => {
 
 export const initialHexflower = (size: number): HexflowerState => {
   const hexes = Object.entries(defaultFlower).map(([strCoords, props]) =>
-    FlowerHex.create(parseStrCoord(strCoords), props, size),
+    FlowerHex.create(parseStrCoord(strCoords), props),
   );
 
   return {
@@ -75,13 +67,12 @@ export const initialHexflower = (size: number): HexflowerState => {
 };
 
 type hexflowerAction =
-  | { name: "select"; payload: number }
+  | { name: "select"; payload: FlowerHex }
   | { name: "deselect" }
   | { name: "setLabel"; payload: string }
   | { name: "setColor"; payload: number }
   | { name: "selectDirection"; payload: number }
-  | { name: "switchSelection"; payload: number }
-  | { name: "changeSize"; payload: number };
+  | { name: "switchSelection"; payload: number };
 
 const hexflowerReducer = (
   state: HexflowerState,
@@ -89,11 +80,7 @@ const hexflowerReducer = (
 ): HexflowerState => {
   switch (action.name) {
     case "select":
-      const hexCount = state.hexGrid.size;
-      if (0 <= action.payload && action.payload < hexCount) {
-        return { ...state, selected: action.payload };
-      }
-      return state;
+      return { ...state, selected: action.payload };
     case "deselect":
       return { ...state, selected: null };
     case "setLabel":
@@ -107,13 +94,6 @@ const hexflowerReducer = (
       return state;
     case "switchSelection":
       return state;
-    case "changeSize":
-      return {
-        ...state,
-        hexGrid: state.hexGrid.map((hex) =>
-          hex.setSize(hex.size + action.payload),
-        ),
-      };
   }
 };
 

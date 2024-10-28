@@ -3,6 +3,7 @@ import { Hex, hexToPoint } from "honeycomb-grid";
 import { hexPath } from "../../utils";
 import "./style.css";
 import { FlowerHex, useHexflowerContext } from "../HexReducerContext";
+import { useState } from "react";
 
 interface HexLeafProps {
   hex: FlowerHex;
@@ -10,6 +11,7 @@ interface HexLeafProps {
 
 const HexLeaf = ({ hex }: HexLeafProps) => {
   const { dispatch, state } = useHexflowerContext();
+  const [hovering, setHovering] = useState(false);
 
   const colorScale: string[] = chroma
     .scale(state.colorScale)
@@ -17,21 +19,26 @@ const HexLeaf = ({ hex }: HexLeafProps) => {
     .colors(7);
 
   const hCenter = hexToPoint(hex);
-  const hColor = colorScale[hex.props.colorChoice];
+  const hColor = hovering
+    ? chroma(colorScale[hex.props.colorChoice]).darken(2)
+    : colorScale[hex.props.colorChoice];
   return (
     <>
-      <path
-        d={hexPath(hex.corners)}
-        stroke={"#eee"}
-        strokeWidth={3}
-        fill={hColor}
-        // className={`hex-shape ${selected ? "selected" : ""}`}
-        className={`hex-shape`}
-      />
-      <g transform={`translate(${hCenter.x},${hCenter.y})`}>
+      <g
+        onMouseLeave={() => setHovering(false)}
+        onMouseOver={() => setHovering(true)}
+        onClick={() => dispatch({ name: "select", payload: hex })}
+      >
+        <path
+          d={hexPath(hex.corners)}
+          stroke={"#eee"}
+          strokeWidth={3}
+          fill={hColor}
+          className={`hex-shape`}
+        />
         <g
           className="text-group"
-          // transform={`translate(-${hex.height * 0.25} -${hex.height * 0.25} )`}
+          transform={`translate(${hCenter.x},${hCenter.y})`}
         >
           <foreignObject
             width={hex.width * (2 / 3)}
