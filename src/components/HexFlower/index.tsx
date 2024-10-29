@@ -1,9 +1,7 @@
-import { centeredViewBox, getHexDimensions } from "../../utils";
-import FlowerOutline from "../HexEditor/FlowerOutline";
+import { centeredViewBox, getHexDimensions, hexPath } from "../../utils";
 
 import HexLeaf from "../HexLeaf";
 import { useHexflowerContext } from "../HexReducerContext";
-import SelectedHex from "./SelectedHex";
 
 import "./style.css";
 
@@ -13,7 +11,7 @@ const HexFlower = () => {
 
   const size = state.size;
 
-  const vb = centeredViewBox(getHexDimensions(size), 10, 4, 5);
+  const vb = centeredViewBox(getHexDimensions(size), 10, 4, 7);
   return (
     <>
       <svg className="flower-view" viewBox={vb.join(" ")}>
@@ -25,13 +23,19 @@ const HexFlower = () => {
           opacity={0}
           onClick={() => dispatch({ name: "deselect" })}
         />
+        {/* <g> */}
+        {/*   <path */}
+        {/*     d={hexPath(state.hexGrid.getHex([2, 2]).corners)} */}
+        {/*     stroke="#eee" */}
+        {/*   /> */}
+        {/* </g> */}
         <g>
-          <FlowerOutline />
-        </g>
-        <g>
-          {grid.toArray().map((hex) => (
-            <HexLeaf key={hex.toString()} hex={hex} />
-          ))}
+          {grid
+            .toArray()
+            .filter((hex) => !hex.props.isNavigation)
+            .map((hex) => (
+              <HexLeaf key={hex.toString()} hex={hex} />
+            ))}
         </g>
         )
       </svg>

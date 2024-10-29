@@ -1,6 +1,7 @@
 import { random } from "chroma-js";
 import {
   createHexDimensions,
+  defineHex,
   Grid,
   Hex,
   HexCoordinates,
@@ -14,21 +15,28 @@ import { getHexDimensions } from "../../utils";
 export interface flowerHexProps {
   colorChoice: number;
   label: string;
+  isNavigation?: boolean;
 }
 
 export class FlowerHex extends Hex {
   props!: flowerHexProps;
+  size!: number;
 
   get dimensions() {
-    return createHexDimensions(50);
+    return createHexDimensions(this.size);
   }
 
   get orientation() {
     return Orientation.FLAT;
   }
-  static create(coordinates: HexCoordinates, props: flowerHexProps) {
+  static create(
+    coordinates: HexCoordinates,
+    props: flowerHexProps,
+    size: number,
+  ) {
     const hex = new FlowerHex(coordinates);
     hex.props = props;
+    hex.size = size;
     return hex;
   }
 }
@@ -52,12 +60,19 @@ export const parseStrCoord = (strCoord: string): [number, number] => {
 
 export const initialHexflower = (size: number): HexflowerState => {
   const hexes = Object.entries(defaultFlower).map(([strCoords, props]) =>
-    FlowerHex.create(parseStrCoord(strCoords), props),
+    FlowerHex.create(parseStrCoord(strCoords), props, size),
   );
 
   return {
     size: size,
-    hexGrid: new Grid(FlowerHex, hexes),
+    hexGrid: new Grid(FlowerHex, [
+      ...hexes,
+      FlowerHex.create(
+        [2, 2],
+        { label: "navigation", colorChoice: 0, isNavigation: true },
+        size,
+      ),
+    ]),
     colorScale: [random(), random()],
     selected: null,
     navigationHex: { C: [], N: [], NE: [], SE: [], S: [], SW: [], NW: [] },

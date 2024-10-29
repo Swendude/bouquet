@@ -1,3 +1,5 @@
+import { flowerHexProps } from ".";
+
 export const defaultFlower: { [key: string]: flowerHexProps } = {
   "-2,0": {
     colorChoice: 5,

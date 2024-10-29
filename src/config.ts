@@ -1,1 +1,1 @@
-export const DARKEN_FACTOR = 0.66;
+export const DARKEN_FACTOR = 1.2;
