@@ -4,6 +4,7 @@ import { hexPath } from "../../utils";
 import "./style.css";
 import { FlowerHex, useHexflowerContext } from "../HexReducerContext";
 import { useState } from "react";
+import { DARKEN_FACTOR } from "../../config";
 
 interface HexLeafProps {
   hex: FlowerHex;
@@ -11,22 +12,30 @@ interface HexLeafProps {
 
 const HexLeaf = ({ hex }: HexLeafProps) => {
   const { dispatch, state } = useHexflowerContext();
-  const [hovering, setHovering] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   const colorScale: string[] = chroma
     .scale(state.colorScale)
     .mode("lab")
     .colors(7);
 
+  const bgColor = colorScale[hex.props.colorChoice];
+  const fgColor = chroma(bgColor).luminance() >= 0.5 ? "#222" : "#eee";
+
   const hCenter = hexToPoint(hex);
-  const hColor = hovering
-    ? chroma(colorScale[hex.props.colorChoice]).darken(2)
-    : colorScale[hex.props.colorChoice];
+
+  const selected = state.selected?.equals(hex);
+
+  const hColor =
+    selected || hovered ? chroma(bgColor).darken(DARKEN_FACTOR) : bgColor;
+
+  const tColor = fgColor;
+
   return (
     <>
       <g
-        onMouseLeave={() => setHovering(false)}
-        onMouseOver={() => setHovering(true)}
+        onMouseLeave={() => setHovered(false)}
+        onMouseOver={() => setHovered(true)}
         onClick={() => dispatch({ name: "select", payload: hex })}
       >
         <path
@@ -50,7 +59,9 @@ const HexLeaf = ({ hex }: HexLeafProps) => {
               <p
                 className="leaf-label"
                 style={{
-                  color: chroma(hColor).luminance() >= 0.5 ? "#222" : "#fff",
+                  color: tColor,
+                  fontWeight: selected ? "700" : "500",
+                  textDecoration: selected ? "underline" : "initial",
                 }}
               >
                 {/* {`${hex.q}, ${hex.r}`} */}

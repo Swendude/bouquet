@@ -2,6 +2,7 @@ import chroma from "chroma-js";
 import { Hex, Point } from "honeycomb-grid";
 import { FlowerHex, useHexflowerContext } from "../HexReducerContext";
 import { hexPath } from "../../utils";
+import { DARKEN_FACTOR } from "../../config";
 
 interface SelectedHexProps {
   hex: FlowerHex;
@@ -15,15 +16,19 @@ const SelectedHex = ({ hex }: SelectedHexProps) => {
     .mode("lab")
     .colors(7);
 
-  const hColor = chroma(colorScale[hex.props.colorChoice]).darken(2);
+  const hColor = chroma(colorScale[hex.props.colorChoice]).darken(
+    DARKEN_FACTOR,
+  );
 
   return (
-    <path
-      d={hexPath(hex.corners)}
-      stroke={chroma(hColor).darken(0.8).desaturate(2)}
-      strokeWidth={4}
-      fill={"none"}
-    />
+    <g>
+      <path
+        d={hexPath(hex.corners)}
+        stroke={hColor}
+        strokeWidth={10}
+        fill={"none"}
+      />
+    </g>
   );
 };
 

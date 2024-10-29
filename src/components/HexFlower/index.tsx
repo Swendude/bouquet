@@ -1,4 +1,5 @@
 import { centeredViewBox, getHexDimensions } from "../../utils";
+import FlowerOutline from "../HexEditor/FlowerOutline";
 
 import HexLeaf from "../HexLeaf";
 import { useHexflowerContext } from "../HexReducerContext";
@@ -9,11 +10,10 @@ import "./style.css";
 const HexFlower = () => {
   const { dispatch, state } = useHexflowerContext();
   const grid = state.hexGrid;
-  const selected = state.selected;
 
   const size = state.size;
 
-  const vb = centeredViewBox(getHexDimensions(size), 2, 4, 5);
+  const vb = centeredViewBox(getHexDimensions(size), 10, 4, 5);
   return (
     <>
       <svg className="flower-view" viewBox={vb.join(" ")}>
@@ -25,17 +25,15 @@ const HexFlower = () => {
           opacity={0}
           onClick={() => dispatch({ name: "deselect" })}
         />
-
+        <g>
+          <FlowerOutline />
+        </g>
         <g>
           {grid.toArray().map((hex) => (
             <HexLeaf key={hex.toString()} hex={hex} />
           ))}
         </g>
-        {state.selected && (
-          <g>
-            <SelectedHex hex={state.selected} />
-          </g>
-        )}
+        )
       </svg>
     </>
   );
