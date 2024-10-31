@@ -15,6 +15,5 @@ root.render(
     <HexflowerContextProvider initial={initialHexflower(50)}>
       <App />
     </HexflowerContextProvider>
-    ,
   </React.StrictMode>,
 );

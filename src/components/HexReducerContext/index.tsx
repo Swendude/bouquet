@@ -1,21 +1,20 @@
 import { random } from "chroma-js";
 import {
   createHexDimensions,
-  defineHex,
+  fromCoordinates,
   Grid,
   Hex,
   HexCoordinates,
   Orientation,
+  spiral,
+  TupleCoordinates,
 } from "honeycomb-grid";
 import { createReducerContext } from "../../lib/reducerContext";
 import { defaultFlower } from "./defaultFlower";
-import HexFlower from "../HexFlower";
-import { getHexDimensions } from "../../utils";
 
 export interface flowerHexProps {
   colorChoice: number;
   label: string;
-  isNavigation?: boolean;
 }
 
 export class FlowerHex extends Hex {
@@ -41,11 +40,40 @@ export class FlowerHex extends Hex {
   }
 }
 
+type NavigationHexProps = {
+  rolls: number[];
+};
+
+export class NavigationHex extends Hex {
+  props!: NavigationHexProps;
+  size!: number;
+
+  get dimensions() {
+    return createHexDimensions(this.size);
+  }
+
+  get orientation() {
+    return Orientation.FLAT;
+  }
+
+  static create(
+    coordinates: HexCoordinates,
+    props: NavigationHexProps,
+    size: number,
+  ) {
+    const hex = new NavigationHex(coordinates);
+    hex.props = props;
+    hex.size = size;
+    return hex;
+  }
+}
+
 type HexDirection = "C" | "N" | "NE" | "SE" | "S" | "SW" | "NW";
 
 interface HexflowerState {
   size: number;
-  hexGrid: Grid<FlowerHex>;
+  flowerGrid: Grid<FlowerHex>;
+  navigationGrid: Grid<NavigationHex>;
   colorScale: [string, string];
   navigationHex: Required<Record<HexDirection, number[]>>;
   diceRange: [number, number];
@@ -62,17 +90,26 @@ export const initialHexflower = (size: number): HexflowerState => {
   const hexes = Object.entries(defaultFlower).map(([strCoords, props]) =>
     FlowerHex.create(parseStrCoord(strCoords), props, size),
   );
+  const navigationHexes = [
+    [0, 0],
+    [0, -1],
+    [1, -1],
+    [1, 0],
+    [0, 1],
+    [-1, 1],
+    [-1, 0],
+  ].map((strCoords) =>
+    NavigationHex.create(
+      strCoords as [number, number],
+      { rolls: [2, 1, 3] },
+      30,
+    ),
+  );
 
   return {
     size: size,
-    hexGrid: new Grid(FlowerHex, [
-      ...hexes,
-      FlowerHex.create(
-        [2, 2],
-        { label: "navigation", colorChoice: 0, isNavigation: true },
-        size,
-      ),
-    ]),
+    flowerGrid: new Grid(FlowerHex, hexes),
+    navigationGrid: new Grid(NavigationHex, navigationHexes),
     colorScale: [random(), random()],
     selected: null,
     navigationHex: { C: [], N: [], NE: [], SE: [], S: [], SW: [], NW: [] },

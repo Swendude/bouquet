@@ -3,18 +3,16 @@ import { centeredViewBox, getHexDimensions, hexPath } from "../../utils";
 import HexLeaf from "../HexLeaf";
 import { useHexflowerContext } from "../HexReducerContext";
 
-import "./style.css";
-
 const HexFlower = () => {
   const { dispatch, state } = useHexflowerContext();
-  const grid = state.hexGrid;
+  const grid = state.flowerGrid;
 
   const size = state.size;
 
-  const vb = centeredViewBox(getHexDimensions(size), 10, 4, 7);
+  const vb = centeredViewBox(getHexDimensions(size), 5, 4, 5);
   return (
     <>
-      <svg className="flower-view" viewBox={vb.join(" ")}>
+      <svg className="w-6/12 " viewBox={vb.join(" ")}>
         <rect
           x={vb[0]}
           y={vb[1]}
@@ -23,19 +21,10 @@ const HexFlower = () => {
           opacity={0}
           onClick={() => dispatch({ name: "deselect" })}
         />
-        {/* <g> */}
-        {/*   <path */}
-        {/*     d={hexPath(state.hexGrid.getHex([2, 2]).corners)} */}
-        {/*     stroke="#eee" */}
-        {/*   /> */}
-        {/* </g> */}
         <g>
-          {grid
-            .toArray()
-            .filter((hex) => !hex.props.isNavigation)
-            .map((hex) => (
-              <HexLeaf key={hex.toString()} hex={hex} />
-            ))}
+          {grid.toArray().map((hex) => (
+            <HexLeaf key={hex.toString()} hex={hex} />
+          ))}
         </g>
         )
       </svg>
