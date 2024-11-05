@@ -1,14 +1,11 @@
-import { Flower2, GitBranchIcon, Github } from "lucide-react";
 import { ReactNode } from "react";
 
-const Header = () => {
+const Footer = () => {
   return (
-    <section className="p-2 w-full text-xs md:text-base ">
-      <h1 className="flex items-center gap-3 text-xl md:text-4xl font-medium border-b border-neutral-300 mb-2">
-        <Flower2 className="w-6 h-6 md:w-10 md:h-10" strokeWidth={1} />
-        Bouquet
-      </h1>
-      <p>
+    <section className="text-xs ">
+      <h1 className="inline-block font-bold">Bouquet</h1>
+      <span>{" - "}</span>
+      <p className="inline-block">
         Hex flower editor inspired by{" "}
         <Link href="https://goblinshenchman.wordpress.com/hex-power-flower/">
           Goblin's Henchman
@@ -29,4 +26,4 @@ const Link = ({ children, href }: { children: ReactNode; href: string }) => (
     {children}
   </a>
 );
-export default Header;
+export default Footer;

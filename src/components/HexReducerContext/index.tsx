@@ -99,7 +99,7 @@ export const initialHexflower = (): HexflowerState => {
     NavigationHex.create(
       strCoords as [number, number],
       { rolls: [2, 1, 3] },
-      25,
+      20,
     ),
   );
 
@@ -118,7 +118,7 @@ type hexflowerAction =
   | { name: "select"; payload: FlowerHex }
   | { name: "deselect" }
   | { name: "setLabel"; payload: { hex: FlowerHex; newLabel: string } }
-  | { name: "setColor"; payload: number }
+  | { name: "setColor"; payload: { start: string; end: string } }
   | { name: "selectDirection"; payload: number }
   | { name: "switchSelection"; payload: number };
 
@@ -156,7 +156,10 @@ const hexflowerReducer = (
     // }
     // return state;
     case "setColor":
-      return state;
+      return {
+        ...state,
+        colorScale: [action.payload.start, action.payload.end],
+      };
     case "selectDirection":
       return state;
     case "switchSelection":

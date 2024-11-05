@@ -10,7 +10,7 @@ export const hexPath = (
   let pathStr = `M${corners[0].x},${corners[0].y} `;
 
   // Loop through each corner and add only the specified sides
-  corners.forEach((point, i) => {
+  corners.forEach((_, i) => {
     if (sides.includes(i)) {
       const nextPoint = corners[(i + 1) % corners.length];
       pathStr += `L${nextPoint.x},${nextPoint.y} `;
@@ -41,10 +41,10 @@ export const centeredViewBox = (
   rows: number,
   cols: number,
 ): [number, number, number, number] => [
-  (-width * rows) / 2 - margin,
-  (-height * cols) / 2 - margin,
-  width * rows + margin * 2,
-  height * cols + margin * 2,
+  (-width * cols) / 2 - margin,
+  (-height * rows) / 2 - margin,
+  width * cols + margin * 2,
+  height * rows + margin * 2,
 ];
 
 interface TriangleOptions {
