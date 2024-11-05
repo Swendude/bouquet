@@ -8,7 +8,24 @@ export default {
       sans: ["'Fira Mono'", "ui-monospace"],
     },
 
-    extend: {},
+    extend: {
+      animation: {
+        pop: "pop 0.4s ease-out both",
+      },
+      keyframes: {
+        pop: {
+          "0%, 50%, 100%": {
+            transform: "rotate(0deg)",
+          },
+          "25%": {
+            transform: "rotate(-3deg)",
+          },
+          "75%": {
+            transform: "rotate(3deg)",
+          },
+        },
+      },
+    },
   },
   plugins: [],
 } satisfies Config;

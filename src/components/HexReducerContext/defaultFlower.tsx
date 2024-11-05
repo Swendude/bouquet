@@ -11,11 +11,11 @@ export const defaultFlower: { [key: string]: flowerHexProps } = {
   },
   "-2,2": {
     colorChoice: 1,
-    label: "scorching heat",
+    label: "scorch\nheat",
   },
   "-1,-1": {
     colorChoice: 5,
-    label: "dry air",
+    label: "dry\nair",
   },
   "-1,0": {
     colorChoice: 5,
@@ -23,11 +23,11 @@ export const defaultFlower: { [key: string]: flowerHexProps } = {
   },
   "-1,1": {
     colorChoice: 2,
-    label: "dry heat",
+    label: "dry\nheat",
   },
   "-1,2": {
     colorChoice: 1,
-    label: "heat wave",
+    label: "heat\nwave",
   },
   "0, -2": {
     colorChoice: 6,
@@ -35,19 +35,19 @@ export const defaultFlower: { [key: string]: flowerHexProps } = {
   },
   "0,-1": {
     colorChoice: 5,
-    label: "cloudy & humid",
+    label: "cloudy\n&\nhumid",
   },
   "0,0": {
     colorChoice: 3,
-    label: "clear sky",
+    label: "clear\nsky",
   },
   "0,1": {
     colorChoice: 2,
-    label: "hot wind",
+    label: "hot\nwind",
   },
   "0,2": {
     colorChoice: 0,
-    label: "heat surge",
+    label: "heat\nsurge",
   },
   "1,-2": {
     colorChoice: 4,
@@ -55,7 +55,7 @@ export const defaultFlower: { [key: string]: flowerHexProps } = {
   },
   "1,-1": {
     colorChoice: 4,
-    label: "light over-cast",
+    label: "light\nover-\ncast",
   },
   "1,0": {
     colorChoice: 2,
@@ -63,15 +63,15 @@ export const defaultFlower: { [key: string]: flowerHexProps } = {
   },
   "1,1": {
     colorChoice: 2,
-    label: "land spouts",
+    label: "land\nspouts",
   },
   "2,-2": {
     colorChoice: 4,
-    label: "warm rain",
+    label: "warm\nrain",
   },
   "2,-1": {
     colorChoice: 2,
-    label: "over-cast",
+    label: "over-\ncast",
   },
   "2,0": {
     colorChoice: 0,

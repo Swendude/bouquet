@@ -1,13 +1,10 @@
 import { random } from "chroma-js";
 import {
   createHexDimensions,
-  fromCoordinates,
   Grid,
   Hex,
   HexCoordinates,
   Orientation,
-  spiral,
-  TupleCoordinates,
 } from "honeycomb-grid";
 import { createReducerContext } from "../../lib/reducerContext";
 import { defaultFlower } from "./defaultFlower";
@@ -28,6 +25,7 @@ export class FlowerHex extends Hex {
   get orientation() {
     return Orientation.FLAT;
   }
+
   static create(
     coordinates: HexCoordinates,
     props: flowerHexProps,
@@ -71,13 +69,12 @@ export class NavigationHex extends Hex {
 type HexDirection = "C" | "N" | "NE" | "SE" | "S" | "SW" | "NW";
 
 interface HexflowerState {
-  size: number;
   flowerGrid: Grid<FlowerHex>;
   navigationGrid: Grid<NavigationHex>;
   colorScale: [string, string];
   navigationHex: Required<Record<HexDirection, number[]>>;
   diceRange: [number, number];
-  selected: FlowerHex | null;
+  selected: HexCoordinates | undefined;
   selectedDirection: number;
 }
 
@@ -86,9 +83,9 @@ export const parseStrCoord = (strCoord: string): [number, number] => {
   return [parsed[0], parsed[1]];
 };
 
-export const initialHexflower = (size: number): HexflowerState => {
+export const initialHexflower = (): HexflowerState => {
   const hexes = Object.entries(defaultFlower).map(([strCoords, props]) =>
-    FlowerHex.create(parseStrCoord(strCoords), props, size),
+    FlowerHex.create(parseStrCoord(strCoords), props, 40),
   );
   const navigationHexes = [
     [0, 0],
@@ -102,16 +99,15 @@ export const initialHexflower = (size: number): HexflowerState => {
     NavigationHex.create(
       strCoords as [number, number],
       { rolls: [2, 1, 3] },
-      30,
+      25,
     ),
   );
 
   return {
-    size: size,
     flowerGrid: new Grid(FlowerHex, hexes),
     navigationGrid: new Grid(NavigationHex, navigationHexes),
     colorScale: [random(), random()],
-    selected: null,
+    selected: undefined,
     navigationHex: { C: [], N: [], NE: [], SE: [], S: [], SW: [], NW: [] },
     diceRange: [1, 12],
     selectedDirection: 0,
@@ -121,7 +117,7 @@ export const initialHexflower = (size: number): HexflowerState => {
 type hexflowerAction =
   | { name: "select"; payload: FlowerHex }
   | { name: "deselect" }
-  | { name: "setLabel"; payload: string }
+  | { name: "setLabel"; payload: { hex: FlowerHex; newLabel: string } }
   | { name: "setColor"; payload: number }
   | { name: "selectDirection"; payload: number }
   | { name: "switchSelection"; payload: number };
@@ -134,12 +130,31 @@ const hexflowerReducer = (
     case "select":
       return { ...state, selected: action.payload };
     case "deselect":
-      return { ...state, selected: null };
-    case "setLabel":
-      //if (state.selected) {
-      //  return {...state, propMap: state.propMap.map(hexProps => hexProps)}
-      //}
-      return state;
+      return { ...state, selected: undefined };
+    case "setLabel": {
+      const modifiedFlowerGrid = state.flowerGrid.map((hex) =>
+        hex.equals(action.payload.hex)
+          ? FlowerHex.create(
+              hex,
+              {
+                ...hex.props,
+                label: action.payload.newLabel,
+              },
+              hex.size,
+            )
+          : hex,
+      );
+
+      return { ...state, flowerGrid: modifiedFlowerGrid };
+    }
+    //if (state.selected) }}{
+    //  return {...state, propMap: state.propMap.map(hexProps => hexProps)}
+    //}
+    //
+    // if (state.selected) {
+    // return {...state, flowerGrid: state.flowerGrid.map(hex => hex.equals(state.selected) ? {...hex, props: {...hex.props, label: action.payload}} : hex} ;
+    // }
+    // return state;
     case "setColor":
       return state;
     case "selectDirection":
@@ -150,6 +165,10 @@ const hexflowerReducer = (
 };
 
 const hexflowerReducerContext = createReducerContext(hexflowerReducer);
+
+export const getSelected = (state: HexflowerState): FlowerHex | undefined => {
+  return state.selected ? state.flowerGrid.getHex(state.selected) : undefined;
+};
 
 export const HexflowerContextProvider = hexflowerReducerContext.provider;
 export const useHexflowerContext = hexflowerReducerContext.useContext;

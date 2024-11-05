@@ -5,14 +5,15 @@ import { useHexflowerContext } from "../HexReducerContext";
 
 const HexFlower = () => {
   const { dispatch, state } = useHexflowerContext();
+
   const grid = state.flowerGrid;
+  const size = grid.getHex([0, 0])!.dimensions.xRadius;
 
-  const size = state.size;
-
-  const vb = centeredViewBox(getHexDimensions(size), 5, 4, 5);
+  const vb = centeredViewBox(getHexDimensions(size), 5, 5, 5);
   return (
-    <>
-      <svg className="w-6/12 " viewBox={vb.join(" ")}>
+    <div className="flex content-stretch items-stretch w-full">
+      <div className="flex-1" onClick={() => dispatch({ name: "deselect" })} />
+      <svg style={{ width: vb[2] - vb[0] }} viewBox={vb.join(" ")}>
         <rect
           x={vb[0]}
           y={vb[1]}
@@ -28,7 +29,8 @@ const HexFlower = () => {
         </g>
         )
       </svg>
-    </>
+      <div className="flex-1" onClick={() => dispatch({ name: "deselect" })} />
+    </div>
   );
 };
 

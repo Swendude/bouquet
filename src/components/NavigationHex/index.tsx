@@ -5,19 +5,18 @@ import {
   hexPath,
 } from "../../utils";
 
-import HexLeaf from "../HexLeaf";
 import { useHexflowerContext } from "../HexReducerContext";
 
 const NavigationHex = () => {
   const { dispatch, state } = useHexflowerContext();
   const grid = state.navigationGrid;
 
-  const size = state.size;
+  const size = grid.getHex([0, 0])!.dimensions.xRadius;
 
   const vb = centeredViewBox(getHexDimensions(size), 5, 3, 3);
   return (
     <>
-      <svg className="" viewBox={vb.join(" ")}>
+      <svg style={{ width: vb[2] - vb[0] }} viewBox={vb.join(" ")}>
         <rect
           x={vb[0]}
           y={vb[1]}
@@ -47,7 +46,7 @@ const NavigationHex = () => {
           <path
             className="stroke-neutral-300 fill-neutral-300"
             transform={`rotate(${i * 60})`}
-            d={generateTrianglePath({ height: 35, width: 50 })}
+            d={generateTrianglePath({ height: size * 1.2, width: 1.6 * size })}
           />
         ))}
         <g>
