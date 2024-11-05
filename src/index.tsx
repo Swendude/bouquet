@@ -12,7 +12,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <HexflowerContextProvider initial={initialHexflower(50)}>
+    <HexflowerContextProvider initial={initialHexflower()}>
       <App />
     </HexflowerContextProvider>
   </React.StrictMode>,
