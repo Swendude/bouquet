@@ -3,7 +3,7 @@ import {
   createHexDimensions,
   Grid,
   Hex,
-  HexCoordinates,
+  type HexCoordinates,
   Orientation,
 } from "honeycomb-grid";
 import { createReducerContext } from "../../lib/reducerContext";
@@ -88,19 +88,30 @@ export const initialHexflower = (): HexflowerState => {
     FlowerHex.create(parseStrCoord(strCoords), props, 40),
   );
   const navigationHexes = [
-    [0, 0],
-    [0, -1],
-    [1, -1],
-    [1, 0],
-    [0, 1],
-    [-1, 1],
-    [-1, 0],
-  ].map((strCoords) =>
-    NavigationHex.create(
-      strCoords as [number, number],
-      { rolls: [2, 1, 3] },
-      20,
-    ),
+    [[0, 0], [12]],
+    [
+      [0, -1],
+      [1, 2],
+    ],
+    [
+      [1, -1],
+      [3, 4],
+    ],
+    [
+      [1, 0],
+      [5, 6],
+    ],
+    [
+      [0, 1],
+      [7, 8],
+    ],
+    [
+      [-1, 1],
+      [9, 10],
+    ],
+    [[-1, 0], [11]],
+  ].map(([strCoords, rolls]) =>
+    NavigationHex.create(strCoords as [number, number], { rolls }, 20),
   );
 
   return {

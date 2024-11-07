@@ -1,3 +1,4 @@
+import { hexToPoint } from "honeycomb-grid";
 import {
   centeredViewBox,
   generateTrianglePath,
@@ -43,6 +44,7 @@ const NavigationHex = () => {
               <path
                 className="stroke-neutral-300 fill-none"
                 strokeDasharray="1,5"
+                strokeWidth={0.2}
                 d={hexPath(
                   hex.corners,
                   [0, 1, 2, 3, 4, 5].filter((i) => (hi + 3) % 6 !== i),
@@ -57,29 +59,32 @@ const NavigationHex = () => {
           key={i}
           className="stroke-neutral-300 fill-neutral-300"
           transform={`rotate(${i * 60})`}
-          d={generateTrianglePath({ height: size * 1.2, width: 1.6 * size })}
+          d={generateTrianglePath({ height: size, width: 1.55 * size })}
         />
       ))}
       <g>
-        <path
-          className="stroke-neutral-300 fill-neutral-900"
-          d={hexPath(centerHex.corners)}
-        />
+        <path className="stroke-neutral-300 " d={hexPath(centerHex.corners)} />
       </g>
-      <g>
-        {grid.toArray().map((hex) => (
+      {grid.toArray().map((hex) => (
+        <g
+          transform={`translate(${hexToPoint(hex).x} ${hexToPoint(hex).y})`}
+          key={`${hex.toString()}_rolls`}
+        >
           <foreignObject
-            key={`${hex.toString()}_rolls`}
             width={hex.width * (2 / 3)}
             height={hex.height * (2 / 3)}
-            transform={`translate(${hex.origin.x} ${hex.origin.y})`}
+            transform={`translate(-${hex.width * (1 / 3)} -${hex.height * (1 / 3)})`}
           >
-            {hex.props.rolls.map((roll) => (
-              <p key={`${hex.toString()}_roll_${roll}`}>{roll}</p>
-            ))}
+            <div className="h-full w-full text-[0.50rem] gap-1 flex items-center justify-center leading-none">
+              {hex.props.rolls.map((roll, ix) => (
+                <span key={`${hex.toString()}_roll_${ix}`} className="">
+                  {roll}
+                </span>
+              ))}
+            </div>
           </foreignObject>
-        ))}
-      </g>
+        </g>
+      ))}
       )
     </svg>
   );
