@@ -2,7 +2,7 @@ import chroma from "chroma-js";
 import { hexToPoint } from "honeycomb-grid";
 import { hexPath } from "../../utils";
 import {
-  FlowerHex,
+  type FlowerHex,
   getSelected,
   useHexflowerContext,
 } from "../HexReducerContext";
@@ -42,12 +42,12 @@ const HexLeaf = ({ hex }: HexLeafProps) => {
       <g
         onMouseLeave={() => setHovered(false)}
         onMouseOver={() => setHovered(true)}
-        onClick={() => dispatch({ name: "select", payload: hex })}
-        className={`cursor-pointer group`}
+        onFocus={() => setHovered(true)}
+        onMouseDown={() => dispatch({ name: "select", payload: hex })}
+        className={"cursor-pointer group"}
       >
         <path
           d={hexPath(hex.corners)}
-          stroke={"#eee"}
           strokeWidth={1.5}
           fill={hColor}
           className="stroke-neutral-900"

@@ -13,7 +13,7 @@ function App() {
   const selected = getSelected(state);
 
   return (
-    <div className="p-4 md:p-4 text-neutral-200 w-svw max-w-4xl mx-auto min-h-screen grid grid-cols-4 4 gap-y-4 grid-rows-1 ">
+    <div className="bg-neutral-900 p-4 md:p-4 text-neutral-100 w-svw max-w-4xl mx-auto min-h-screen grid grid-cols-4 4 gap-y-4 grid-rows-1 ">
       <div className="justify-center content-center col-span-4 md:col-span-3 place-items-center">
         <HexFlower />
       </div>
@@ -76,7 +76,7 @@ function App() {
             <p>Click on a hex to edit. </p>
             {selected && (
               <textarea
-                className="bg-neutral-700 border max-h-28 p-2"
+                className="bg-neutral-500 border max-h-28 p-2"
                 rows={4}
                 wrap="hard"
                 value={selected.props.label}
@@ -111,7 +111,7 @@ const ModeSelector = ({
 }) => (
   <button
     type="button"
-    className={`flex gap-2 py-4 border:text-bold min-w-16 border p-2 rounded ${active && "text-black bg-neutral-200"}`}
+    className={`flex gap-2 py-4 border:text-bold min-w-16 border p-2 rounded ${active && "text-black bg-neutral-100"}`}
   >
     {children}
   </button>

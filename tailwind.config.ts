@@ -5,7 +5,7 @@ export default {
   darkMode: "class", // or 'class'
   theme: {
     fontFamily: {
-      sans: ["'Fira Mono'", "ui-monospace"],
+      sans: ["'Fira sans'", "ui-sans"],
     },
 
     extend: {
