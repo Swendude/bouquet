@@ -1,4 +1,4 @@
-import { Point } from "honeycomb-grid";
+import type { Point } from "honeycomb-grid";
 
 export const hexPath = (
   corners: Point[],
@@ -41,8 +41,8 @@ export const centeredViewBox = (
   rows: number,
   cols: number,
 ): [number, number, number, number] => {
-  const totalWidth = ((cols + 3) * width) / 2;
-  const totalHeigth = Math.floor(height * rows);
+  const totalWidth = width + (cols - 1) * width * (3 / 4);
+  const totalHeigth = Math.ceil(height * rows);
   return [
     -totalWidth / 2 - margin,
     -totalHeigth / 2 - margin,

@@ -73,11 +73,13 @@ const NavigationHex = () => {
           key={`${hex.toString()}_rolls`}
         >
           <foreignObject
-            width={hex.width * (2 / 3)}
+            // width={hex.width * (2 / 3)}
+            width={hex.width}
             height={hex.height * (2 / 3)}
-            transform={`translate(-${hex.width * (1 / 3)} -${hex.height * (1 / 3)})`}
+            // transform={`translate(-${hex.width * (1 / 3)} -${hex.height * (1 / 3)})`}
+            transform={`translate(-${(hex.width * 1) / 2} -${hex.height * (1 / 3)})`}
           >
-            <div className="h-full w-full text-[0.65rem] flex items-center justify-center">
+            <div className="h-full w-full text-base flex items-center justify-center ">
               {/* {hex.props.rolls.map((roll, ix) => ( */}
               {/* <span key={`${hex.toString()}_roll_${ix}`} className=""> */}
               {/* {roll} */}

@@ -69,6 +69,7 @@ export class NavigationHex extends Hex {
 type HexDirection = "C" | "N" | "NE" | "SE" | "S" | "SW" | "NW";
 
 interface HexflowerState {
+  title: string;
   flowerGrid: Grid<FlowerHex>;
   navigationGrid: Grid<NavigationHex>;
   colorScale: [string, string];
@@ -112,6 +113,7 @@ export const initialHexflower = (): HexflowerState => {
   );
 
   return {
+    title: "Summer weather",
     flowerGrid: new Grid(FlowerHex, hexes),
     navigationGrid: new Grid(NavigationHex, navigationHexes),
     colorScale: [random(), random()],

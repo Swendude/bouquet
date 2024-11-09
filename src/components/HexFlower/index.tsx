@@ -5,9 +5,12 @@ import { useHexflowerContext } from "../HexReducerContext";
 
 const HexFlower = () => {
   const { dispatch, state } = useHexflowerContext();
-
   const grid = state.flowerGrid;
-  const size = grid.getHex([0, 0])!.dimensions.xRadius;
+  const centerHex = grid.getHex([0, 0]);
+  if (!centerHex) {
+    throw new Error("Hexflower grid not initialized");
+  }
+  const size = centerHex.dimensions.xRadius;
 
   const vb = centeredViewBox(getHexDimensions(size), 1, 5, 5);
   return (
@@ -18,8 +21,10 @@ const HexFlower = () => {
         width={vb[2]}
         height={vb[3]}
         opacity={0}
-        onClick={() => dispatch({ name: "deselect" })}
+        onMouseDown={() => dispatch({ name: "deselect" })}
+        aria-labelledby="flowerTitle"
       />
+      <title id="flowerTitle">Hex Flower</title>
       <g>
         {grid.toArray().map((hex) => (
           <HexLeaf key={hex.toString()} hex={hex} />

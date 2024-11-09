@@ -15,15 +15,17 @@ function App() {
   return (
     <div className="bg-neutral-900 p-4 md:p-4 text-neutral-100 w-svw max-w-4xl mx-auto min-h-screen grid grid-cols-6  gap-y-4 grid-rows-1 ">
       <div className="justify-center content-center col-span-6 md:col-span-4 place-items-center">
+        <h2 className="text-4xl mb-4 ">{state.title}</h2>
         <HexFlower />
       </div>
 
       <div className="justify-center content-end col-span-4 col-start-2 md:col-start-auto md:col-span-2 place-items-center">
+        <h2 className="text-xs mb-4 ">Navigation Hex (2D6)</h2>
         <NavigationHex />
       </div>
 
       <div className="min-h-64 col-span-4 w-full">
-        <div className="border-2 rounded-md h-full p-4 ">
+        <div className="rounded-md h-full p-4 ">
           <menu className="flex gap-4 pb-4 ">
             <ModeSelector>
               <Dices />
