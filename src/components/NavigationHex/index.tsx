@@ -19,11 +19,11 @@ const NavigationHex = () => {
 
   const size = centerHex.dimensions.xRadius;
 
-  const vb = centeredViewBox(getHexDimensions(size), 5, 3, 3);
+  const vb = centeredViewBox(getHexDimensions(size), 1, 3, 3);
   return (
     <svg
       aria-labelledby="nhTitle"
-      style={{ maxWidth: vb[2] - vb[0] }}
+      style={{ width: vb[2] }}
       viewBox={vb.join(" ")}
       className="stroke-neutral-700 stroke-1 fill-none text-neutral-100 font-extrabold"
     >
@@ -77,11 +77,11 @@ const NavigationHex = () => {
             height={hex.height * (2 / 3)}
             transform={`translate(-${hex.width * (1 / 3)} -${hex.height * (1 / 3)})`}
           >
-            <div className="h-full w-full text-[0.50rem] gap-1 flex items-center justify-center leading-none">
+            <div className="h-full w-full text-[0.65rem] flex items-center justify-center">
               {/* {hex.props.rolls.map((roll, ix) => ( */}
               {/* <span key={`${hex.toString()}_roll_${ix}`} className=""> */}
               {/* {roll} */}
-              <span>{hex.props.rolls.join(",")}</span>
+              <p className="break-words">{hex.props.rolls.join(",")}</p>
               {/* ))} */}
             </div>
           </foreignObject>

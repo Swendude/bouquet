@@ -88,14 +88,11 @@ export const initialHexflower = (): HexflowerState => {
     FlowerHex.create(parseStrCoord(strCoords), props, 40),
   );
   const navigationHexes = [
-    [[0, 0], [12]],
-    [
-      [0, -1],
-      [1, 2],
-    ],
+    [[0, 0], []],
+    [[0, -1], []],
     [
       [1, -1],
-      [3, 4],
+      [1, 3, 4],
     ],
     [
       [1, 0],
@@ -107,11 +104,11 @@ export const initialHexflower = (): HexflowerState => {
     ],
     [
       [-1, 1],
-      [9, 10],
+      [9, 10, 12],
     ],
     [[-1, 0], [11]],
   ].map(([strCoords, rolls]) =>
-    NavigationHex.create(strCoords as [number, number], { rolls }, 20),
+    NavigationHex.create(strCoords as [number, number], { rolls }, 30),
   );
 
   return {

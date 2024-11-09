@@ -9,7 +9,7 @@ const HexFlower = () => {
   const grid = state.flowerGrid;
   const size = grid.getHex([0, 0])!.dimensions.xRadius;
 
-  const vb = centeredViewBox(getHexDimensions(size), 1, 5, 4);
+  const vb = centeredViewBox(getHexDimensions(size), 1, 5, 5);
   return (
     <svg style={{ maxWidth: vb[2] - vb[0] }} viewBox={vb.join(" ")}>
       <rect

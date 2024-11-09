@@ -13,12 +13,12 @@ function App() {
   const selected = getSelected(state);
 
   return (
-    <div className="bg-neutral-900 p-4 md:p-4 text-neutral-100 w-svw max-w-4xl mx-auto min-h-screen grid grid-cols-4 4 gap-y-4 grid-rows-1 ">
-      <div className="justify-center content-center col-span-4 md:col-span-3 place-items-center">
+    <div className="bg-neutral-900 p-4 md:p-4 text-neutral-100 w-svw max-w-4xl mx-auto min-h-screen grid grid-cols-6  gap-y-4 grid-rows-1 ">
+      <div className="justify-center content-center col-span-6 md:col-span-4 place-items-center">
         <HexFlower />
       </div>
 
-      <div className="justify-center content-end col-span-2 col-start-2 md:col-start-auto md:col-span-1 place-items-center">
+      <div className="justify-center content-end col-span-4 col-start-2 md:col-start-auto md:col-span-2 place-items-center">
         <NavigationHex />
       </div>
 

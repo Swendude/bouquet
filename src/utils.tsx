@@ -40,12 +40,16 @@ export const centeredViewBox = (
   margin: number,
   rows: number,
   cols: number,
-): [number, number, number, number] => [
-  (-width * cols) / 2 - margin,
-  (-height * rows) / 2 - margin,
-  width * cols + margin * 2,
-  height * rows + margin * 2,
-];
+): [number, number, number, number] => {
+  const totalWidth = ((cols + 3) * width) / 2;
+  const totalHeigth = Math.floor(height * rows);
+  return [
+    -totalWidth / 2 - margin,
+    -totalHeigth / 2 - margin,
+    totalWidth + margin,
+    totalHeigth + margin,
+  ];
+};
 
 interface TriangleOptions {
   width: number;
@@ -68,9 +72,8 @@ export function generateTrianglePath({
     return `M ${-halfWidth + offsetX},${offsetY} 
             L ${halfWidth + offsetX},${offsetY} 
             L ${offsetX},${-height + offsetY} Z`;
-  } else {
-    // For rounded corners, we use quadratic curves (Q)
-    return `M ${-halfWidth + offsetX},${offsetY}
+  }
+  return `M ${-halfWidth + offsetX},${offsetY}
             L ${halfWidth + offsetX},${offsetY}
             Q ${halfWidth + offsetX - rounded},${offsetY - rounded} 
               ${halfWidth + offsetX - rounded},${offsetY - rounded}
@@ -80,7 +83,6 @@ export function generateTrianglePath({
             L ${-halfWidth + offsetX + rounded},${offsetY - rounded}
             Q ${-halfWidth + offsetX},${offsetY} 
               ${-halfWidth + offsetX},${offsetY} Z`;
-  }
 }
 
 // Example usage:

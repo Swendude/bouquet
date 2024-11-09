@@ -1,6 +1,6 @@
 import chroma from "chroma-js";
 import { hexToPoint } from "honeycomb-grid";
-import { hexPath } from "../../utils";
+import { getHexDimensions, hexPath } from "../../utils";
 import {
   type FlowerHex,
   getSelected,
@@ -36,7 +36,8 @@ const HexLeaf = ({ hex }: HexLeafProps) => {
     isSelected || hovered ? chroma(bgColor).darken(DARKEN_FACTOR) : bgColor;
 
   const tColor = fgColor;
-
+  console.log(hex.size);
+  console.log(getHexDimensions(hex.size));
   return (
     <>
       <g
@@ -44,7 +45,6 @@ const HexLeaf = ({ hex }: HexLeafProps) => {
         onMouseOver={() => setHovered(true)}
         onFocus={() => setHovered(true)}
         onMouseDown={() => dispatch({ name: "select", payload: hex })}
-        className={"cursor-pointer group"}
       >
         <path
           d={hexPath(hex.corners)}
